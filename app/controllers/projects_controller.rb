@@ -20,6 +20,11 @@ class ProjectsController < ApplicationController
   end
 
   def update
+    if @project.update(project_params)
+      render :show
+    else
+      render :edit
+    end
   end
 
   def edit
