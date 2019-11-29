@@ -1,2 +1,10 @@
 <h2><%= current_user.username %></h2>
+
+<div>
+  <% @projects.each do |p| %>
+    <h3><%= p.name %></h3>
+    <p><%= link_to "Edit name and description", edit_project_path(p) %></p>
+  <% end %>
+</div>
+
 <p><%= link_to "Add a Story", new_project_path %></p>
