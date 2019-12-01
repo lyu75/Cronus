@@ -5,6 +5,7 @@
     <h3><%= p.name %></h3>
     <p><%= link_to "Edit name and description", edit_project_path(p) %></p>
     <p><%= link_to "Delete", project_path(p), method: :delete, data: {confirm: "Are you sure?"} %></p>
+    <p><%= link_to "Edit content", project_owner_work_path(p) %></p>
   <% end %>
 </div>
 
