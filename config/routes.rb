@@ -9,4 +9,7 @@ Rails.application.routes.draw do
   root to: 'pages#home'
 
   get 'profile' => "pages#profile", as: "profile"
+
+  get '/projects/:id/owner_workspace', to: 'projects#owner_workspace', as: "project_owner_work"
+
 end
