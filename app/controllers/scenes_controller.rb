@@ -4,13 +4,18 @@ class ScenesController < ApplicationController
 
   def new
     @scene = Scene.new
+    @p = Project.find(params["project_id"])
   end
 
   def create
     @scene = Scene.create(scene_params)
+    @p = Project.find(params["project_id"])
+    @scene.project = @p
     if @scene.save
-      render :show
+      puts "scene created"
+      redirect_to project_owner_work_path(@p)
     else
+      puts "scene not created"
       render :new
     end
   end

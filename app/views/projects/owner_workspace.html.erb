@@ -1,1 +1,10 @@
-<p>Projects#owner_workspace</p>
+<p><%= @project.name %></p>
+<%= link_to 'Add Scene', new_project_scene_path(@project) %>
+
+<div>
+  <% @project.scenes.each do |s| %>
+    <div>
+        <p><%= s.content %></p>
+    </div>
+  <% end %>
+</div>
