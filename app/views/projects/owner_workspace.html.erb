@@ -3,8 +3,10 @@
 
 <div>
   <% @project.scenes.each do |s| %>
-    <div>
-        <p><%= s.content %></p>
+
+    <div class='scene'>
+        <p><%= s.summary %></p>
     </div>
+
   <% end %>
 </div>

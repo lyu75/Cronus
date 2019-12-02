@@ -1,7 +1,7 @@
 <h1>Scenes#new</h1>
 
 <%= form_for [@p, @scene] do |f| %>
-  <%= f.text_area :summary %>
+  <%= f.text_area :summary, placeholder: "scene-summary", required: true %>
   <%= f.text_area :content, rows: 15, cols: 50, required: true %>
   <%= f.hidden_field :project_id, value: @p.id %>
   <%= f.hidden_field :user_id, value: current_user.id %>
