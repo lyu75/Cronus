@@ -42,6 +42,6 @@ class ScenesController < ApplicationController
   end
 
   def scene_params
-    params.require(:scene).permit(:content, :project_id, :user_id)
+    params.require(:scene).permit(:content, :project_id, :user_id, :summary)
   end
 end
