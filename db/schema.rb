@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_30_222035) do
+ActiveRecord::Schema.define(version: 2020_01_14_140043) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -21,6 +21,15 @@ ActiveRecord::Schema.define(version: 2019_11_30_222035) do
     t.datetime "updated_at", null: false
     t.bigint "previous_id"
     t.bigint "next_id"
+    t.integer "editor_id"
+    t.float "p1"
+    t.float "p2"
+    t.float "p3"
+    t.float "p4"
+    t.float "p5"
+    t.float "p6"
+    t.float "p7"
+    t.float "p8"
     t.index ["next_id"], name: "index_decisions_on_next_id"
     t.index ["previous_id"], name: "index_decisions_on_previous_id"
   end
@@ -41,6 +50,9 @@ ActiveRecord::Schema.define(version: 2019_11_30_222035) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "summary"
+    t.integer "editor_id"
+    t.integer "p1"
+    t.integer "p2"
     t.index ["project_id"], name: "index_scenes_on_project_id"
     t.index ["user_id"], name: "index_scenes_on_user_id"
   end
