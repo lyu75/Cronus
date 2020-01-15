@@ -217,6 +217,17 @@
       var nodes = myDiagram.model.Cc;
       var edges = myDiagram.model.Nc;
       var project_id = <%= @project.id %>;
+
+      /*
+        get all scenes from the current project
+
+        rememebr:
+          "<%= @project.scenes %>"
+          no double quotes if using raw
+      */
+      var old_scenes = <%= raw @project.scenes.to_json %>;
+      console.log(old_scenes);
+
       // node information
       for(var i=1;i<nodes.length-1;i++){
         var text = nodes[i].text;
@@ -239,22 +250,17 @@
           }
         };
 
-        /*
-          GET:
-
-        */
-
-        $.ajax({
-          type: "POST",
-          url:"/projects/"+project_id+"/scenes",
-          data: scene,
-          success: function(data, textStatus, jqXHR){
-            console.log("eihei!");
-          },
-          error: function(jqXHR, textStatus, errorThrown){
-            console.log("faaaaaaa");
-          }
-        });
+        // $.ajax({
+        //   type: "POST",
+        //   url:"/projects/"+project_id+"/scenes",
+        //   data: scene,
+        //   success: function(data, textStatus, jqXHR){
+        //     console.log("eihei!");
+        //   },
+        //   error: function(jqXHR, textStatus, errorThrown){
+        //     console.log("faaaaaaa");
+        //   }
+        // });
       }
 
 
