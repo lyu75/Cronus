@@ -1,8 +1,10 @@
 <h1>Cronus</h1>
-<% @projects.each do |p| %>
-  <div>
-    <h3><%= link_to p.name, project_path(p) %></h3>
-    <p><%= p.description %></p>
-    <p><%= p.user.username %></p>
-  </div>
-<% end %>
+<div class='container'>
+  <% @projects.each do |p| %>
+    <div class="projects">
+      <h3><%= link_to p.name, project_path(p) %></h3>
+      <p><%= p.description %></p>
+      <p><%= p.user.username %></p>
+    </div>
+  <% end %>
+</div>
