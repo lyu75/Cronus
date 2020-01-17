@@ -24,6 +24,11 @@ class ScenesController < ApplicationController
   end
 
   def update
+    if @scene.update(scene_params)
+      puts "scene updated"
+    else
+      puts "scene update failure"
+    end
   end
 
   def index
@@ -34,6 +39,7 @@ class ScenesController < ApplicationController
   end
 
   def destroy
+    @scene.destroy
   end
 
   private
