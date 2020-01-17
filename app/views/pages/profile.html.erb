@@ -1,12 +1,14 @@
-<h2><%= current_user.username %></h2>
+<div class='container'>
+  <h2><%= current_user.username %></h2>
+    <% @projects.each do |p| %>
+    <div class='projects'>
+      <h3><%= p.name %></h3>
+      <p><%= link_to "Edit content", project_owner_work_path(p) %></p>
+      <p><%= link_to "Edit name and description", edit_project_path(p) %></p>
+      <p><%= link_to "Delete project", project_path(p), method: :delete, data: {confirm: "Are you sure?"} %></p>
+     </div>
+    <% end %>
+  <p class='add'><%= link_to "+ Add a Story", new_project_path %></p>
 
-<div>
-  <% @projects.each do |p| %>
-    <h3><%= p.name %></h3>
-    <p><%= link_to "Edit name and description", edit_project_path(p) %></p>
-    <p><%= link_to "Delete", project_path(p), method: :delete, data: {confirm: "Are you sure?"} %></p>
-    <p><%= link_to "Edit content", project_owner_work_path(p) %></p>
-  <% end %>
 </div>
 
-<p><%= link_to "Add a Story", new_project_path %></p>

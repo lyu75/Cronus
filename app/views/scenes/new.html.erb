@@ -1,9 +1,11 @@
-<h1>Scenes#new</h1>
+<div class="container">
+  <h2>New Scene</h2>
 
-<%= form_for [@p, @scene] do |f| %>
-  <%= f.text_area :summary, placeholder: "scene-summary", required: true %>
-  <%= f.text_area :content, rows: 15, cols: 50, required: true %>
-  <%= f.hidden_field :project_id, value: @p.id %>
-  <%= f.hidden_field :user_id, value: current_user.id %>
-  <%= f.submit %>
-<% end %>
+  <%= form_for [@p, @scene] do |f| %>
+    <%= f.text_area :summary, placeholder: "Scene title", required: true %><br>
+    <%= f.text_area :content, rows: 15, cols: 50, required: true %>
+    <%= f.hidden_field :project_id, value: @p.id %>
+    <%= f.hidden_field :user_id, value: current_user.id %>
+    <%= f.submit %>
+  <% end %>
+</div>

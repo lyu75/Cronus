@@ -1,7 +1,10 @@
-<h1>Projects#new</h1>
-
-<%= form_for @project do |f| %>
-  <%= f.text_field :name ,placeholder: "Name of story", required: true %>
-  <%= f.text_area :description, placeholder: "Description" %>
-  <%= f.submit %>
-<% end %>
+<div class='container'>
+  <div class="form-inputs">
+    <h2>New Project</h2>
+    <%= form_for @project do |f| %>
+      <%= f.text_field :name , class: "new-proj", placeholder: "Title", required: true %><br>
+      <%= f.text_area :description, class: "new-proj", placeholder: "Description" %><br>
+      <%= f.submit %>
+    <% end %>
+  </div>
+</div>
