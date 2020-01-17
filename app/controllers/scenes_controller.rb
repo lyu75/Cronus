@@ -13,10 +13,10 @@ class ScenesController < ApplicationController
     @scene.project = @p
     if @scene.save
       puts "scene created"
-      redirect_to project_owner_work_path(@p)
+      # redirect_to project_owner_work_path(@p)
     else
       puts "scene not created"
-      render :new
+      # render :new
     end
   end
 
@@ -42,6 +42,6 @@ class ScenesController < ApplicationController
   end
 
   def scene_params
-    params.require(:scene).permit(:content, :project_id, :user_id, :summary)
+    params.require(:scene).permit(:content, :project_id, :summary, :editor_id, :p1, :p2)
   end
 end
