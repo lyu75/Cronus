@@ -132,6 +132,7 @@
             })
         )
       );
+
       // clicking the button inserts a new node to the right of the selected node,
       // and adds a link to that new node
       function addNodeAndLink(e, obj) {
@@ -228,13 +229,41 @@
       var old_scenes = <%= raw @project.scenes.to_json %>;
       console.log(old_scenes);
 
+      // check if we need to make any delete request
+      for(var i=0;i<old_scenes.length;i++){
+        console.log(old_scenes[i].editor_id);
+
+        var del = true;
+        // check if the old node is still present in the editor
+        for(var j=0;j<nodes.length;j++){
+          if(nodes[j].editor_id == old_scenes[i].editor_id){
+            del = false;
+          }
+        }
+
+        if (del){
+          // send a delete request
+          $.ajax({
+            type: "DELETE",
+            url:"/projects/"+project_id+"/scenes/"+old_scenes[i].id,
+            success: function(data, textStatus, jqXHR){
+              console.log("eihei!");
+            },
+            error: function(jqXHR, textStatus, errorThrown){
+              console.log("faaaaaaa");
+            }
+          });
+        }
+      }
+
+
       // node information
       for(var i=1;i<nodes.length-1;i++){
         var text = nodes[i].text;
         var editor_id = nodes[i].id;
         var p = nodes[i].loc.split(" ");
-        var p1 = parseInt(p[0]);
-        var p2 = parseInt(p[1]);
+        var p1 = Math.round(parseFloat(p[0]));
+        var p2 = Math.round(parseFloat(p[1]));
         // console.log("text", nodes[i].text);
         // console.log("id", nodes[i].id);
         // console.log("p1", nodes[i].loc.split(" ")[0]);
@@ -250,6 +279,7 @@
           }
         };
 
+        // console.log(scene)
         // $.ajax({
         //   type: "POST",
         //   url:"/projects/"+project_id+"/scenes",
@@ -285,6 +315,7 @@
       // var project_id = <%= @project.id %>;
       // console.log(project_id);
     }
+
 </script>
 
 <div id="sample">
