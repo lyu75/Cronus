@@ -216,12 +216,70 @@
       // read in the JSON data from the "mySavedModel" element
       load();
     }
+
+    // delete a scene
+    function deleteScene(projectId, scene_id){
+      $.ajax({
+        type: "DELETE",
+        url:"/projects/"+projectId+"/scenes/"+scene_id,
+        success: function(data, textStatus, jqXHR){
+          console.log("eihei!");
+        },
+        error: function(jqXHR, textStatus, errorThrown){
+          console.log("faaaaaaa");
+        }
+      });
+    }
+
+    // send a post request to add a scene; scene needs to be a hash
+    function addScene(projectId, scene){
+      $.ajax({
+        type: "POST",
+        url:"/projects/"+projectId+"/scenes",
+        data: scene,
+        success: function(data, textStatus, jqXHR){
+          console.log("eihei!");
+        },
+        error: function(jqXHR, textStatus, errorThrown){
+          console.log("faaaaaaa");
+        }
+      });
+    }
+
+    function editScene(projectId, scene_id, scene){
+      $.ajax({
+        type: "PATCH",
+        url:"/projects/"+projectId+"/scenes/"+scene_id,
+        data: scene,
+        success: function(data, textStatus, jqXHR){
+          console.log("eihei!");
+        },
+        error: function(jqXHR, textStatus, errorThrown){
+          console.log("faaaaaaa");
+        }
+      });
+    }
+
+    function getScenes(projectId){
+      $.ajax({
+        type: "GET",
+        url:"/projects/"+projectId+"/scenes",
+        dataType: "json",
+        success: function(data, textStatus, jqXHR){
+          console.log("data", data);
+        },
+        error: function(jqXHR, textStatus, errorThrown){
+          console.log("faaaaaaa");
+        }
+      });
+    }
+
     // Show the diagram's model in JSON format
     function save() {
       document.getElementById("mySavedModel").value = myDiagram.model.toJson();
       var nodes = myDiagram.model.Cc;
       var edges = myDiagram.model.Nc;
-      var project_id = <%= @project.id %>;
+      var projectId = <%= @project.id %>;
 
       /*
         get all scenes from the current project
@@ -230,72 +288,82 @@
           "<%= @project.scenes %>"
           no double quotes if using raw
       */
-      var old_scenes = <%= raw @project.scenes.to_json %>;
-      console.log(old_scenes);
 
-      // check if we need to make any delete request
-      for(var i=0;i<old_scenes.length;i++){
-        console.log(old_scenes[i].editor_id);
+      // make a get request to fetch all the scenes:
+      getScenes(projectId);
 
-        var del = true;
-        // check if the old node is still present in the editor
-        for(var j=0;j<nodes.length;j++){
-          if(nodes[j].editor_id == old_scenes[i].editor_id){
-            del = false;
-          }
-        }
-
-        if (del){
-          // send a delete request
-          $.ajax({
-            type: "DELETE",
-            url:"/projects/"+project_id+"/scenes/"+old_scenes[i].id,
-            success: function(data, textStatus, jqXHR){
-              console.log("eihei!");
-            },
-            error: function(jqXHR, textStatus, errorThrown){
-              console.log("faaaaaaa");
-            }
-          });
-        }
-      }
+      // var oldScenes = <%= raw @project.scenes.to_json %>;
+      // console.log("oldScenes", oldScenes);
+      // console.log("nodes", nodes);
 
 
-      // node information
-      for(var i=1;i<nodes.length-1;i++){
-        var text = nodes[i].text;
-        var editor_id = nodes[i].id;
-        var p = nodes[i].loc.split(" ");
-        var p1 = Math.round(parseFloat(p[0]));
-        var p2 = Math.round(parseFloat(p[1]));
-        // console.log("text", nodes[i].text);
-        // console.log("id", nodes[i].id);
-        // console.log("p1", nodes[i].loc.split(" ")[0]);
-        // console.log("p2", nodes[i].loc.split(" ")[1]);
 
-        var scene = {
-          scene:{
-            // project_id: project_id,
-            summary: text,
-            editor_id: editor_id,
-            p1: p1,
-            p2: p2
-          }
-        };
+      // // check if we need to make any delete request
+      // for(var i=0;i<oldScenes.length;i++){
+      //   // console.log(oldScenes[i].editor_id);
+      //   var del = true;
+      //   // check if the old node is still present in the editor
+      //   for(var j=0;j<nodes.length;j++){
+      //     if(nodes[j].id == oldScenes[i].editor_id){
+      //       del = false;
+      //     }
+      //   }
+      //   if (del){
+      //     // deleteScene(projectId, oldScenes[i].id);
+      //   }
+      // }
 
-        // console.log(scene)
-        // $.ajax({
-        //   type: "POST",
-        //   url:"/projects/"+project_id+"/scenes",
-        //   data: scene,
-        //   success: function(data, textStatus, jqXHR){
-        //     console.log("eihei!");
-        //   },
-        //   error: function(jqXHR, textStatus, errorThrown){
-        //     console.log("faaaaaaa");
-        //   }
-        // });
-      }
+
+      // // node information
+      // for(var i=1;i<nodes.length-1;i++){
+      //   var node = nodes[i];
+      //   // find matching scene
+      //   var matchingScene = null;
+      //   for(var j=0;j<oldScenes.length;j++){
+      //     oldScene = oldScenes[j];
+      //     if (oldScene.editor_id == node.id){
+      //       matchingScene = oldScene;
+      //     }
+      //   }
+
+      //   // build hash for scene
+      //   var text = node.text;
+      //   var editor_id = node.id;
+      //   var p = node.loc.split(" ");
+      //   var p1 = Math.round(parseFloat(p[0]));
+      //   var p2 = Math.round(parseFloat(p[1]));
+      //   // console.log("text", nodes[i].text);
+      //   // console.log("id", nodes[i].id);
+      //   // console.log("p1", nodes[i].loc.split(" ")[0]);
+      //   // console.log("p2", nodes[i].loc.split(" ")[1]);
+
+      //   var scene = {
+      //     scene:{
+      //       summary: text,
+      //       editor_id: editor_id,
+      //       p1: p1,
+      //       p2: p2
+      //     }
+      //   };
+
+      //   // if no mathcing scene, make a post request
+      //   // otherwise, a patch request
+
+      //   if (matchingScene == null){
+      //     // addScene(projectId, scene);
+      //   }else{
+      //     // before making a patch request, check if it is necessary
+      //     var oldSummary = matchingScene.summary;
+      //     var oldP1 = matchingScene.p1;
+      //     var oldP2 = matchingScene.p2;
+      //     var sceneId = matchingScene.id;
+      //     if(oldSummary==text && oldP1==p1 && oldP2==p2){
+      //       // do nothing
+      //     }else{
+      //       // editScene(projectId, sceneId, scene);
+      //     }
+      //   }
+      // }
 
 
       // display edge information:
@@ -316,8 +384,8 @@
 
     function load() {
       myDiagram.model = go.Model.fromJson(document.getElementById("mySavedModel").value);
-      // var project_id = <%= @project.id %>;
-      // console.log(project_id);
+      // var projectId = <%= @project.id %>;
+      // console.log(projectId);
     }
 
 </script>
