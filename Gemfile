@@ -4,7 +4,7 @@ ruby '2.6.3'
 gem 'jquery-rails'
 gem 'bootsnap', require: false
 gem 'devise'
-gem 'jbuilder', '~> 2.0'
+gem 'jbuilder', '~> 2.5'
 gem 'pg', '~> 0.21'
 gem 'puma', ">=4.3.1"
 gem 'rails', '5.2.3'

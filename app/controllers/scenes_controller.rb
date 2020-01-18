@@ -32,7 +32,8 @@ class ScenesController < ApplicationController
   end
 
   def index
-    @scene = Scene.all
+    @p = Project.find(params["project_id"])
+    @scenes = @p.scenes
   end
 
   def show
