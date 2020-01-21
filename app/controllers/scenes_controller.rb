@@ -1,6 +1,6 @@
 class ScenesController < ApplicationController
   skip_before_action :verify_authenticity_token
-  before_action :set_scene, only: [:show, :edit, :update, :destroy]
+  before_action :set_scene, only: [:show, :edit, :update, :destroy, :show_json]
 
   def create
     @scene = Scene.create(scene_params)
@@ -16,6 +16,7 @@ class ScenesController < ApplicationController
   end
 
   def edit
+    puts params
   end
 
   def update
@@ -32,6 +33,9 @@ class ScenesController < ApplicationController
   end
 
   def show
+  end
+
+  def show_json
   end
 
   def destroy
