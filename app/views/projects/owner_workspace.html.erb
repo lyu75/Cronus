@@ -231,6 +231,19 @@
       });
     }
 
+    function deleteDecision(projectId, sceneId, decisionId){
+      $.ajax({
+        type: "DELETE",
+        url:"/projects/"+projectId+"/scenes/"+sceneId+"/decisions/"+decisionId,
+        success: function(data, textStatus, jqXHR){
+          console.log("eihei!");
+        },
+        error: function(jqXHR, textStatus, errorThrown){
+          console.log("faaaaaaa");
+        }
+      });
+    }
+
     // send a post request to add a scene; scene needs to be a hash
     function addScene(projectId, scene, edges){
       $.ajax({
@@ -324,6 +337,83 @@
         data: scene,
         success: function(data, textStatus, jqXHR){
           console.log("eihei!");
+          // $.ajax({
+          //   type: "GET",
+          //   url:"/projects/"+projectId+"/scenes",
+          //   dataType: "json",
+          //   success: function(data, textStatus, jqXHR){
+          //     console.log("second post", data);
+
+          //     // delete all old decisions, if there's any
+          //     let oldDecisionsId = [];
+          //     for(let d=0;d<data.length;d++){
+          //       let localDecisions = data[d].decisions;
+          //       if(localDecisions.length > 0){
+          //         for(let e=0;e<localDecisions.length;e++){
+          //           oldDecisionsId.push(localDecisions[e].id);
+          //         };
+          //       };
+          //     };
+
+          //     console.log(oldDecisionsId);
+
+          //     for(let d=0;d<oldDecisionsId.length;d++){
+          //       deleteDecision(projectId, sceneId, oldDecisionsId[d]);
+          //     }
+
+          //     // add decisions according to edges
+          //     if(edges.length > 0){
+          //       for(let e=0;e<edges.length;e++){
+          //         let edge = edges[e];
+
+          //         let sceneId = null;
+          //         let nextId = null;
+
+          //         // find sceneId and nextId according to from and to
+          //         let from = edge.from;
+          //         let to = edge.to;
+          //         for (let f=0;f<data.length;f++){
+          //           let scene = data[f];
+          //           if (scene.editor_id == from){
+          //             sceneId = scene.id;
+          //           };
+          //           if (scene.editor_id == to){
+          //             nextId = scene.id;
+          //           };
+          //         };
+
+          //         if(sceneId != null && nextId != null){
+          //           // build decision hash for post
+          //           let decision = {
+          //             decision: {
+          //               description: edge.text,
+          //               scene_id: sceneId,
+          //               next_id: nextId,
+          //               previous_editor_id: from,
+          //               next_editor_id: to,
+          //               p1: Math.round(edge.points.j[0].x),
+          //               p2: Math.round(edge.points.j[0].y),
+          //               p3: Math.round(edge.points.j[1].x),
+          //               p4: Math.round(edge.points.j[1].y),
+          //               p5: Math.round(edge.points.j[2].x),
+          //               p6: Math.round(edge.points.j[2].y),
+          //               p7: Math.round(edge.points.j[3].x),
+          //               p8: Math.round(edge.points.j[3].y),
+          //             }
+          //           };
+          //           addDecision(projectId, sceneId, decision);
+          //         }else{
+          //           console.log("sceneId or nextId missing")
+          //         };
+          //       };
+          //     };
+
+          //   },
+          //   error: function(jqXHR, textStatus, errorThrown){
+          //     console.log("faaaaaaa")
+          //   }
+          // });
+
         },
         error: function(jqXHR, textStatus, errorThrown){
           console.log("faaaaaaa");
@@ -380,13 +470,13 @@
             for(var j=0;j<nodes.length;j++){
               if(nodes[j].id == oldScenes[i].editor_id){
                 del = false;
-              }
-            }
+              };
+            };
             if (del){
               // deleting a scene means deleting all of its associated decisions
               deleteScene(projectId, oldScenes[i].id);
-            }
-          }
+            };
+          };
 
 
           // go through all nodes currently in the editor
@@ -417,10 +507,6 @@
             var p = node.loc.split(" ");
             var p1 = Math.round(parseFloat(p[0]));
             var p2 = Math.round(parseFloat(p[1]));
-            // console.log("text", nodes[i].text);
-            // console.log("id", nodes[i].id);
-            // console.log("p1", nodes[i].loc.split(" ")[0]);
-            // console.log("p2", nodes[i].loc.split(" ")[1]);
 
             var scene = {
               scene:{
@@ -438,7 +524,7 @@
               // don't add the start node
               if (scene.scene.editor_id != -1){
                 addScene(projectId, scene, edges);
-              }
+              };
             }else{
               // before making a patch request, check if it is necessary
               var oldSummary = matchingScene.summary;
@@ -449,7 +535,66 @@
                 // do nothing
               }else{
                 editScene(projectId, sceneId, scene);
-              }
+              };
+
+              // delete all edges of the current node
+              // 1. if the old scene has any edge
+              if (matchingScene.decisions.length > 0){
+                for(let k=0;k<matchingScene.decisions.length;k++){
+                  // delete that edge
+                  let decisionId = matchingScene.decisions[k].id
+                  deleteDecision(projectId, matchingScene.id, decisionId);
+                };
+              };
+
+              // 2. for all edges current associated with this node, post them
+              // add decisions according to edges
+              if(edges.length > 0){
+                for(let e=0;e<edges.length;e++){
+                  let edge = edges[e];
+
+                  let sceneId = null;
+                  let nextId = null;
+
+                  // find sceneId and nextId according to from and to
+                  let from = edge.from;
+                  let to = edge.to;
+                  for (let f=0;f<data.length;f++){
+                    let scene = data[f];
+                    if (scene.editor_id == from){
+                      sceneId = scene.id;
+                    };
+                    if (scene.editor_id == to){
+                      nextId = scene.id;
+                    };
+                  };
+
+                  if(sceneId != null && nextId != null){
+                    // build decision hash for post
+                    let decision = {
+                      decision: {
+                        description: edge.text,
+                        scene_id: sceneId,
+                        next_id: nextId,
+                        previous_editor_id: from,
+                        next_editor_id: to,
+                        p1: Math.round(edge.points.j[0].x),
+                        p2: Math.round(edge.points.j[0].y),
+                        p3: Math.round(edge.points.j[1].x),
+                        p4: Math.round(edge.points.j[1].y),
+                        p5: Math.round(edge.points.j[2].x),
+                        p6: Math.round(edge.points.j[2].y),
+                        p7: Math.round(edge.points.j[3].x),
+                        p8: Math.round(edge.points.j[3].y),
+                      }
+                    };
+                    addDecision(projectId, sceneId, decision);
+                  }else{
+                    console.log("sceneId or nextId missing")
+                  };
+                };
+              };
+
             }
           }
         },
@@ -457,8 +602,6 @@
           console.log("faaaaaaa");
         }
       });
-
-
     }
 
     function load() {
@@ -510,9 +653,6 @@
           // add the start node
           let start = {"id":-1, "loc":"155 -138", "category":"Start"};
           nodes.push(start);
-
-          // collect all the edges
-
 
           let model = {
             "class": "GraphLinksModel",
