@@ -1,2 +1,73 @@
-<h1>Scenes#edit</h1>
-<p>Find me in app/views/scenes/edit.html.erb</p>
+<h2><%= @scene.summary %></h2>
+<p>content preview: </p>
+<p id="contentPreview"></p>
+
+
+<script type="text/javascript" id="code">
+  var projectId = <%= @scene.project.id %>;
+  var sceneId = <%= @scene.id %>;
+  function init(){
+    $.ajax({
+      type: "GET",
+      url:"/projects/"+projectId+"/scenes/"+sceneId+"/json",
+      success: function(data, textStatus, jqXHR){
+        console.log(data);
+        document.getElementById("sceneContent").value = data.scene.content;
+        document.getElementById("contentPreview").innerHTML = data.scene.content;
+      },
+      error: function(jqXHR, textStatus, errorThrown){
+        console.log("faaaaaaa");
+      }
+    });
+  };
+
+  function editScene(projectId, sceneId, scene){
+    $.ajax({
+      type: "PATCH",
+      url:"/projects/"+projectId+"/scenes/"+sceneId,
+      data: scene,
+      success: function(data, textStatus, jqXHR){
+        console.log("eihei");
+      },
+      error: function(jqXHR, textStatus, errorThrown){
+        console.log("faaaaaaa");
+      }
+    });
+  };
+
+  function save(){
+    let newContent = document.getElementById("sceneContent").value;
+    let newScene = {
+      scene: {
+        content: newContent
+      }
+    };
+    editScene(projectId, sceneId, newScene);
+  };
+
+  function load(){
+    $.ajax({
+      type: "GET",
+      url:"/projects/"+projectId+"/scenes/"+sceneId+"/json",
+      success: function(data, textStatus, jqXHR){
+        console.log(data);
+        document.getElementById("sceneContent").value = data.scene.content;
+        document.getElementById("contentPreview").innerHTML = data.scene.content;
+      },
+      error: function(jqXHR, textStatus, errorThrown){
+        console.log("faaaaaaa");
+      }
+    });
+  };
+
+
+</script>
+
+<div>
+  <textarea id="sceneContent" style="width:70%;height:300px">
+  </textarea>
+  <div>
+    <button onclick="save()">save scene content</button>
+    <button onclick="load()">load scene content</button>
+  </div>
+</div>

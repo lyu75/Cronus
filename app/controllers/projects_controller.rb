@@ -1,6 +1,6 @@
 class ProjectsController < ApplicationController
   skip_before_action :verify_authenticity_token
-  before_action :set_project, only: [:show, :edit, :update, :destroy, :owner_workspace]
+  before_action :set_project, only: [:show, :edit, :update, :destroy, :owner_workspace, :elaborate_scenes]
 
   def new
     @project = Project.new
@@ -20,6 +20,10 @@ class ProjectsController < ApplicationController
   end
 
   def owner_workspace
+  end
+
+  def elaborate_scenes
+    puts params
   end
 
   def update
