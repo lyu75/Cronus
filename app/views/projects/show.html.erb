@@ -1,3 +1,4 @@
 <h2><%= @project.name %></h2>
 <p><%= @project.description %></p>
 <p><%= @project.user.username %></p>
+<p><%= link_to "start", project_play_path(@project) %></p>

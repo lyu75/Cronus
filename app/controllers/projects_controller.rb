@@ -1,6 +1,6 @@
 class ProjectsController < ApplicationController
   skip_before_action :verify_authenticity_token
-  before_action :set_project, only: [:show, :edit, :update, :destroy, :owner_workspace, :elaborate_scenes]
+  before_action :set_project, only: [:show, :edit, :update, :destroy, :owner_workspace, :elaborate_scenes, :play]
 
   def new
     @project = Project.new
@@ -17,6 +17,11 @@ class ProjectsController < ApplicationController
   end
 
   def show
+  end
+
+  def play
+    # find the start scene(node) of the project
+    @start = Scene.find_by(editor_id: -1)
   end
 
   def owner_workspace
