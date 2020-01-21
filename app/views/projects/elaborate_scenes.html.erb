@@ -1,3 +1,4 @@
+<div class="container">
 <h2><%= @project.name %></h2>
 
 <% @project.scenes.each do |s| %>
@@ -7,7 +8,10 @@
 <% end %>
 
 <% @project.scenes.each do |s| %>
+  <ul>
   <% if s.editor_id != -1 %>
-    <p><%= s.summary %> | <%= link_to "Elaborate", edit_project_scene_path(@project, s) %></p>
+    <li class="sceneList"><%= s.summary %> | <%= link_to "Elaborate", edit_project_scene_path(@project, s) %></li>
   <% end %>
+  </ul>
 <% end %>
+</div>
