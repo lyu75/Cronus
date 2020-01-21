@@ -2,11 +2,6 @@ class ScenesController < ApplicationController
   skip_before_action :verify_authenticity_token
   before_action :set_scene, only: [:show, :edit, :update, :destroy]
 
-  def new
-    @scene = Scene.new
-    @p = Project.find(params["project_id"])
-  end
-
   def create
     @scene = Scene.create(scene_params)
     @p = Project.find(params["project_id"])
@@ -34,7 +29,6 @@ class ScenesController < ApplicationController
   def index
     @p = Project.find(params["project_id"])
     @scenes = @p.scenes
-    @decisions = @p.decisions
   end
 
   def show

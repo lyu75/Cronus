@@ -2,7 +2,9 @@ Rails.application.routes.draw do
 
   resources :projects
   resources :projects, only: [:show] do
-    resources :scenes
+    resources :scenes, only: [:index, :destroy, :update, :create, :show, :edit] do
+      resources :decisions, only: [:create, :update, :destroy]
+    end
   end
 
   devise_for :users

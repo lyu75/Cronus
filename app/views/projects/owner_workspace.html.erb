@@ -218,10 +218,10 @@
     }
 
     // delete a scene
-    function deleteScene(projectId, scene_id){
+    function deleteScene(projectId, sceneId){
       $.ajax({
         type: "DELETE",
-        url:"/projects/"+projectId+"/scenes/"+scene_id,
+        url:"/projects/"+projectId+"/scenes/"+sceneId,
         success: function(data, textStatus, jqXHR){
           console.log("eihei!");
         },
@@ -232,10 +232,95 @@
     }
 
     // send a post request to add a scene; scene needs to be a hash
-    function addScene(projectId, scene){
+    function addScene(projectId, scene, edges){
       $.ajax({
         type: "POST",
         url:"/projects/"+projectId+"/scenes",
+        data: scene,
+        success: function(data, textStatus, jqXHR){
+          console.log("eihei!");
+          $.ajax({
+            type: "GET",
+            url:"/projects/"+projectId+"/scenes",
+            dataType: "json",
+            success: function(data, textStatus, jqXHR){
+              console.log("second post", data);
+              // if we have new edges:
+              if(edges.length > 0){
+                for(let e=0;e<edges.length;e++){
+                  let edge = edges[e];
+                  console.log(edge);
+
+                  let sceneId = null;
+                  let nextId = null;
+
+                  // find sceneId and nextId according to from and to
+                  let from = edge.from;
+                  let to = edge.to;
+                  for (let f=0;f<data.length;f++){
+                    let scene = data[f];
+                    if (scene.editor_id == from){
+                      sceneId = scene.id;
+                    };
+                    if (scene.editor_id == to){
+                      nextId = scene.id;
+                    };
+                  };
+
+                  if(sceneId != null && nextId != null){
+                    // build decision hash for post
+                    let decision = {
+                      decision: {
+                        description: edge.text,
+                        scene_id: sceneId,
+                        next_id: nextId,
+                        previous_editor_id: from,
+                        next_editor_id: to,
+                        p1: Math.round(edge.points.j[0].x),
+                        p2: Math.round(edge.points.j[0].y),
+                        p3: Math.round(edge.points.j[1].x),
+                        p4: Math.round(edge.points.j[1].y),
+                        p5: Math.round(edge.points.j[2].x),
+                        p6: Math.round(edge.points.j[2].y),
+                        p7: Math.round(edge.points.j[3].x),
+                        p8: Math.round(edge.points.j[3].y),
+                      }
+                    };
+                    addDecision(projectId, sceneId, decision);
+                  }else{
+                    console.log("sceneId or nextId missing")
+                  };
+                };
+              };
+            },
+            error: function(jqXHR, textStatus, errorThrown){
+              console.log("faaaaaaa");
+            }
+          });
+        },
+        error: function(jqXHR, textStatus, errorThrown){
+          console.log("faaaaaaa");
+        }
+      });
+    }
+    function addDecision(projectId, sceneId, decision){
+      $.ajax({
+        type: "POST",
+        url:"/projects/"+projectId+"/scenes/"+sceneId+"/decisions",
+        data: decision,
+        success: function(data, textStatus, jqXHR){
+          console.log("eihei!");
+        },
+        error: function(jqXHR, textStatus, errorThrown){
+          console.log("faaaaaaa");
+        }
+      });
+    }
+
+    function editScene(projectId, sceneId, scene){
+      $.ajax({
+        type: "PATCH",
+        url:"/projects/"+projectId+"/scenes/"+sceneId,
         data: scene,
         success: function(data, textStatus, jqXHR){
           console.log("eihei!");
@@ -246,11 +331,11 @@
       });
     }
 
-    function editScene(projectId, scene_id, scene){
+    function editDecision(projectId, sceneId, decisionId, decision){
       $.ajax({
         type: "PATCH",
-        url:"/projects/"+projectId+"/scenes/"+scene_id,
-        data: scene,
+        url:"/projects/"+projectId+"/scenes/"+scene_id+"/decisions/"+decisionId,
+        data: decision,
         success: function(data, textStatus, jqXHR){
           console.log("eihei!");
         },
@@ -265,7 +350,7 @@
     function save() {
       document.getElementById("mySavedModel").value = myDiagram.model.toJson();
       var nodes = myDiagram.model.Cc;
-      var edges = myDiagram.model.Nc;
+      var allEdges = myDiagram.model.Nc;
       var projectId = <%= @project.id %>;
 
       /*
@@ -285,6 +370,7 @@
           let oldScenes = data;
           console.log("old scenes", oldScenes);
           console.log("nodes in the editor", nodes);
+          console.log("edges in the editor", allEdges);
 
           // check if we need to make any delete request
           for(var i=0;i<oldScenes.length;i++){
@@ -297,15 +383,26 @@
               }
             }
             if (del){
+              // deleting a scene means deleting all of its associated decisions
               deleteScene(projectId, oldScenes[i].id);
             }
           }
 
 
-          // node information
+          // go through all nodes currently in the editor
           for(var i=0;i<nodes.length;i++){
             var node = nodes[i];
-            // find matching scene
+
+            // find all edges associated with this node in the editor, store in the array edges
+            var edges = [];
+            for(let j=0;j<allEdges.length;j++){
+              var edge = allEdges[j];
+              if(edge.from == node.id){
+                edges.push(edge);
+              };
+            };
+
+            // find matching scene from the db
             var matchingScene = null;
             for(var j=0;j<oldScenes.length;j++){
               oldScene = oldScenes[j];
@@ -340,7 +437,7 @@
             if (matchingScene == null){
               // don't add the start node
               if (scene.scene.editor_id != -1){
-                addScene(projectId, scene);
+                addScene(projectId, scene, edges);
               }
             }else{
               // before making a patch request, check if it is necessary
@@ -355,28 +452,11 @@
               }
             }
           }
-
-
-          // display edge information:
-          // for(var i=0;i<edges.length;i++){
-          //   console.log(edges[i].from);
-          //   console.log(edges[i].to);
-          //   var points = edges[i].points.j;
-          //   console.log(points[0].x);
-          //   console.log(points[0].y);
-          //   console.log(points[1].x);
-          //   console.log(points[1].y);
-          //   console.log(points[2].x);
-          //   console.log(points[2].y);
-          //   console.log(points[3].x);
-          //   console.log(points[3].y);
-          // }
         },
         error: function(jqXHR, textStatus, errorThrown){
           console.log("faaaaaaa");
         }
       });
-
 
 
     }
@@ -389,10 +469,13 @@
         dataType: "json",
         success: function(data, textStatus, jqXHR){
           let oldScenes = data;
-          // modify the array for displaying
+          console.log("data", data);
+
+          // collect nodes and edges
           let nodes = [];
+          let edges = [];
+
           for (let i=0;i<oldScenes.length;i++){
-            // console.log(oldScenes[i]);
             let scene = oldScenes[i];
             let node = {
               "id": scene.editor_id,
@@ -404,7 +487,9 @@
           // add the start node
           let start = {"id":-1, "loc":"155 -138", "category":"Start"};
           nodes.push(start);
-          // console.log(nodes);
+
+          // collect all the edges
+
 
           let model = {
             "class": "GraphLinksModel",
