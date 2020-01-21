@@ -218,17 +218,21 @@
     }
 
     // delete a scene
-    function deleteScene(projectId, sceneId){
-      $.ajax({
-        type: "DELETE",
-        url:"/projects/"+projectId+"/scenes/"+sceneId,
-        success: function(data, textStatus, jqXHR){
-          console.log("eihei!");
-        },
-        error: function(jqXHR, textStatus, errorThrown){
-          console.log("faaaaaaa");
-        }
-      });
+    function deleteScene(projectId, sceneId, editorId){
+      if(editorId != -1){
+        $.ajax({
+          type: "DELETE",
+          url:"/projects/"+projectId+"/scenes/"+sceneId,
+          success: function(data, textStatus, jqXHR){
+            console.log("eihei!");
+          },
+          error: function(jqXHR, textStatus, errorThrown){
+            console.log("faaaaaaa");
+          }
+        });
+      }else{
+        // don't delete the start node
+      }
     }
 
     function deleteDecision(projectId, sceneId, decisionId){
@@ -474,7 +478,7 @@
             };
             if (del){
               // deleting a scene means deleting all of its associated decisions
-              deleteScene(projectId, oldScenes[i].id);
+              deleteScene(projectId, oldScenes[i].id, oldScenes[i].editor_id);
             };
           };
 
@@ -521,10 +525,7 @@
             // otherwise, a patch request
 
             if (matchingScene == null){
-              // don't add the start node
-              if (scene.scene.editor_id != -1){
-                addScene(projectId, scene, edges);
-              };
+              addScene(projectId, scene, edges);
             }else{
               // before making a patch request, check if it is necessary
               var oldSummary = matchingScene.summary;
@@ -620,11 +621,22 @@
 
           for (let i=0;i<oldScenes.length;i++){
             let scene = oldScenes[i];
-            let node = {
-              "id": scene.editor_id,
-              "loc": scene.p1+" "+scene.p2,
-              "text": scene.summary
-            };
+
+            let node = null;
+            if(scene.editor_id != -1){
+              node = {
+                "id": scene.editor_id,
+                "loc": scene.p1+" "+scene.p2,
+                "text": scene.summary
+              };
+            }else{
+              node = {
+                "id": -1,
+                "loc": scene.p1+" "+scene.p2,
+                "category": "Start"
+              }
+            }
+
             nodes.push(node);
 
             if (scene.decisions.length > 0){
