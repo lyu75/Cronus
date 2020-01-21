@@ -1,0 +1,8 @@
+<h2><%= @project.name %></h2>
+<p><%= @start.content %></p>
+
+<% @start.decisions.each do |d|%>
+  <p>
+    <%= link_to d.description, project_scene_path(@project, Scene.find(d.next_id)) %>
+  </p>
+<% end %>
