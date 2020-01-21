@@ -78,8 +78,9 @@ form{
   position:relative;
   top: 51px;
   left: -105px;
-  background-color: #e6d7c3;
+  background-color: #b99673;
   font-size: 20px;
+  border:none;
 }
 
 .dropdown-item:hover{
@@ -95,9 +96,9 @@ form{
 }
 
 .home{
-  position: relative;
-  left: -635px;
-  top: 3px;
+  position: absolute;
+  left: 33px;
+  top: 15px;
 }
 
 .avatar{
@@ -112,13 +113,28 @@ form{
   float: right;
 }
 
-.new-proj{
+.new_project{
   margin: auto;
-  margin-bottom: 10px;
-  width: 60%;
+  margin-left: 25%;
+}
+
+.new-proj{
+    margin-bottom: 10px;
+    width: 500px;
 }
 
 textarea{
   width: 60%;
   height: 200px;
+}
+
+#mySavedModel{
+  display:none;
+}
+
+.scene{
+  background-color:#d7c8af;
+  border-radius: 20px;
+  display: inline-block;
+  margin: 10px;
 }
