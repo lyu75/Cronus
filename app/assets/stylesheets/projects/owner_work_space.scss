@@ -2,9 +2,12 @@
 .scene {
   color: rgb(100,100,200);
   // position: absolute;
-  background-color: rgb(150,200,230);
   text-align: center;
   // cursor: move;
   padding: 20px;
   width: 150px;
+  background-color:#d7c8af;
+  border-radius: 20px;
+  display: inline-block;
+  margin: 10px;
 }

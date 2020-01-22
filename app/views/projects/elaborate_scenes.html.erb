@@ -1,10 +1,13 @@
 <div class="container">
 <h2><%= @project.name %></h2>
 
+<div class="proj-display">
 <% @project.scenes.each do |s| %>
+<ul>
   <% if s.editor_id == -1 %>
-    <p>Start Scene | <%= link_to "Elaborate", edit_project_scene_path(@project, s) %></p>
+    <li>Starting Scene | <%= link_to "Elaborate", edit_project_scene_path(@project, s) %></li>
   <% end %>
+</ul>
 <% end %>
 
 <% @project.scenes.each do |s| %>
@@ -14,4 +17,5 @@
   <% end %>
   </ul>
 <% end %>
+</div>
 </div>
