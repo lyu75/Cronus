@@ -3,8 +3,7 @@
     <p class='floatRight'><%= link_to "+ Add a Story", new_project_path %></p>
     <% @projects.each do |p| %>
     <div class='projects'>
-      <h3><%=p.name%></h3>
-      <p><%= link_to "View content", project_path(p) %></p>
+      <h3><%= link_to p.name, project_path(p) %></h3>
       <p><%= link_to "Edit content", project_owner_work_path(p) %></p>
       <!-- <p><%= link_to "Edit name and description", edit_project_path(p) %></p> -->
       <p><%= link_to "Delete project", project_path(p), method: :delete, data: {confirm: "Are you sure?"} %></p>
