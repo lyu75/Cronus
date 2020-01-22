@@ -3,8 +3,9 @@
 <%= link_to "see all scenes", project_elaborate_scenes_path(@scene.project) %>
 
 <h2><%= @scene.summary %></h2>
-<p>Content preview: </p>
-<p id="contentPreview"></p>
+<p class="floatRight">*Note: Scene name will not be displayed to readers</p><br>
+<h3>Content preview: </h3>
+<p id="contentPreview" class="proj-display"></p>
 
 <div>
   <p>Decisions: </p>
@@ -74,11 +75,10 @@
 </script>
 
 <div>
-  <textarea id="sceneContent" style="width:70%;height:300px">
+  <textarea id="sceneContent" style="width:100%;height:300px">
   </textarea>
-  <div>
+  <div class="floatRight">
     <button onclick="save()">Save scene content</button>
     <button onclick="load()">Load scene content</button>
-  </div>
 </div>
 </div>
