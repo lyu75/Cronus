@@ -6,6 +6,11 @@ body{
   color: #5a4740;
 }
 
+strong{
+  font-weight: 5px;
+  text-decoration: underline;
+}
+
 .container{
   margin: auto;
   margin-top: 30px;
@@ -42,17 +47,18 @@ a:hover{
 
 h1,h2,h3{
   font-family: Baskerville Old Face, Perpetua, serif;
-  text-align: center;
   font-size: 100px;
 }
 
 h1{
   margin-top: 20px;
   margin-bottom: 0;
+  text-align: center;
 }
 
 h2{
   font-size: 50px;
+  text-align: center;
 }
 
 h3{
@@ -91,6 +97,7 @@ button:hover,.btn:hover{
   background-color: #b99673;
   font-size: 20px;
   border:none;
+  padding-top: 15px;
 }
 
 .dropdown-item{
@@ -113,6 +120,16 @@ button:hover,.btn:hover{
   position: absolute;
   left: 33px;
   top: 15px;
+}
+
+.proj-display{
+  margin: auto;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  padding: 3%;
+  width: 70%;
+  background-color: #d7c8af;
+  border-radius: 20px;
 }
 
 .avatar{

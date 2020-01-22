@@ -1,5 +1,6 @@
+<div class="container">
 <h2><%= @scene.project.name %></h2>
-
+<div class="proj-display"
 <p><%= @scene.content %></p>
 
 <% @scene.decisions.each do |d|%>
@@ -7,3 +8,5 @@
     <%= link_to d.description, project_scene_path(@scene.project, Scene.find(d.next_id)) %>
   </p>
 <% end %>
+</div>
+</div>
