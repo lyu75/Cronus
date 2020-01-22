@@ -1,9 +1,18 @@
 <div class="container">
+
+<%= link_to "see all scenes", project_elaborate_scenes_path(@scene.project) %>
+
 <h2><%= @scene.summary %></h2>
 <p class="floatRight">*Note: Scene name will not be displayed to readers</p><br>
 <h3>Content preview: </h3>
 <p id="contentPreview" class="proj-display"></p>
 
+<div>
+  <p>Decisions: </p>
+  <% @scene.decisions.each do |d| %>
+    <p><%= d.description %></p>
+  <% end %>
+</div>
 
 <script type="text/javascript" id="code">
   var projectId = <%= @scene.project.id %>;

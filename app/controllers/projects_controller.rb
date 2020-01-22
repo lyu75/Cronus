@@ -20,15 +20,12 @@ class ProjectsController < ApplicationController
   end
 
   def play
-    # find the start scene(node) of the project
-    @start = Scene.find_by(editor_id: -1)
   end
 
   def owner_workspace
   end
 
   def elaborate_scenes
-    puts params
   end
 
   def update
