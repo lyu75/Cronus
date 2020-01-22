@@ -19,6 +19,15 @@ body{
 .navbar{
   background-color: #b99673;
   color: #5a4740;
+  padding:none;
+}
+
+a{
+  color:#5a82c6;
+}
+
+a:hover{
+  color:#8e97b4;
 }
 
 .projects{
@@ -28,7 +37,6 @@ body{
   padding:2%;
   text-align:center;
   display: inline-block;
-  float: top;
   margin: 10px;
 }
 
@@ -40,6 +48,7 @@ h1,h2,h3{
 
 h1{
   margin-top: 20px;
+  margin-bottom: 0;
 }
 
 h2{
@@ -63,14 +72,15 @@ form{
   border-radius: 30px;
 }
 
-.btn{
+button,.btn{
   background-color: #b99673;
   font-size: 20px;
   color:#5a4740;
-  float: right;
+  border:none;
+  border-radius:5px;
 }
 
-.btn:hover{
+button:hover,.btn:hover{
   background-color:#a3805c;
 }
 
@@ -83,8 +93,12 @@ form{
   border:none;
 }
 
+.dropdown-item{
+  color:#5a4740;
+}
 .dropdown-item:hover{
-  background-color: #b99673;
+  background-color: #e6d7c3;
+  color:#5a4740;
 }
 
 .nav-link{
@@ -109,18 +123,14 @@ form{
   opacity: 1;
 }
 
-.add{
-  float: right;
-}
-
 .new_project{
   margin: auto;
-  margin-left: 25%;
 }
 
 .new-proj{
     margin-bottom: 10px;
-    width: 500px;
+    margin-left: 25%;
+    width: 50%;
 }
 
 textarea{
@@ -138,3 +148,16 @@ textarea{
   display: inline-block;
   margin: 10px;
 }
+
+.actions{
+  margin-top: 10px;
+}
+
+.center{
+  text-align:center;
+}
+
+.floatRight{
+  float: right;
+}
+

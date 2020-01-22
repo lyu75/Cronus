@@ -2,7 +2,7 @@
   <%= f.error_notification %>
 
   <div class="form-inputs">
-    <h2>Sign up</h2>
+    <h2>New Account</h2>
     <%= f.input :email,
                 required: true,
                 autofocus: true,
@@ -20,8 +20,8 @@
                 input_html: { autocomplete: "new-password" } %>
   </div>
 
-  <div class="form-actions">
-    <%= f.button :submit, "Sign up" %>
+  <div class="form-actions floatRight">
+    <%= f.button :submit, "Create Account" %>
   </div>
   <%= render "devise/shared/links" %>
 <% end %>
