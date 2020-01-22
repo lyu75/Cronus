@@ -531,6 +531,7 @@
           // collect nodes and edges
           let nodes = [];
           let edges = [];
+          let hasStart = false;
 
           for (let i=0;i<oldScenes.length;i++){
             let scene = oldScenes[i];
@@ -543,6 +544,7 @@
                 "text": scene.summary
               };
             }else{
+              hasStart = true;
               node = {
                 "id": -1,
                 "loc": scene.p1+" "+scene.p2,
@@ -574,6 +576,15 @@
                 edges.push(edge);
               };
             };
+          }
+
+          if (!hasStart){
+            let start = {
+              "id": -1,
+              "loc": "155 -138",
+              "category": "Start"
+            }
+            nodes.push(start);
           }
 
           let model = {
