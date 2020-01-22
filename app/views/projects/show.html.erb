@@ -1,6 +1,7 @@
 <div class="container">
+<%= link_to "<< Back to Projects", "/profile"%>
 <h2><%= @project.name %></h2>
 <p><%= @project.description %></p>
-<p class="floatRight"><%= @project.user.username %></p>
+<p class="floatRight">by <%= @project.user.username %></p>
 <p class="center"><strong><%= link_to "Start Here", project_play_path(@project) %></strong></p>
 </div>
