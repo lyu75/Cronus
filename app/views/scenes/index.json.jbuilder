@@ -10,7 +10,6 @@ json.array! @scenes do |scene|
       json.id decision.id
       json.description decision.description
 
-      json.next_id decision.next_id
       json.previous_editor_id decision.previous_editor_id
       json.next_editor_id decision.next_editor_id
 

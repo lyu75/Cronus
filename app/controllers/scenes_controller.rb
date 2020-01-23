@@ -39,6 +39,9 @@ class ScenesController < ApplicationController
   end
 
   def destroy
+    @scene.decisions.each do |d|
+      d.destroy
+    end
     @scene.destroy
   end
 

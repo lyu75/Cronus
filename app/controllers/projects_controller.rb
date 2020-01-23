@@ -40,6 +40,9 @@ class ProjectsController < ApplicationController
   end
 
   def destroy
+    @project.scenes.each do |s|
+      s.destroy
+    end
     @project.destroy
     redirect_back(fallback_location: root_path)
   end
