@@ -259,7 +259,6 @@
                   console.log(edge);
 
                   let sceneId = null;
-                  let nextId = null;
 
                   // find sceneId and nextId according to from and to
                   let from = edge.from;
@@ -269,18 +268,14 @@
                     if (scene.editor_id == from){
                       sceneId = scene.id;
                     };
-                    if (scene.editor_id == to){
-                      nextId = scene.id;
-                    };
                   };
 
-                  if(sceneId != null && nextId != null){
+                  if(sceneId != null){
                     // build decision hash for post
                     let decision = {
                       decision: {
                         description: edge.text,
                         scene_id: sceneId,
-                        next_id: nextId,
                         previous_editor_id: from,
                         next_editor_id: to,
                         p1: Math.round(edge.points.j[0].x),
@@ -295,7 +290,7 @@
                     };
                     addDecision(projectId, sceneId, decision);
                   }else{
-                    console.log("sceneId or nextId missing")
+                    console.log("sceneId missing")
                   };
                 };
               };
@@ -466,9 +461,7 @@
               if(edges.length > 0){
                 for(let e=0;e<edges.length;e++){
                   let edge = edges[e];
-
                   let sceneId = null;
-                  let nextId = null;
 
                   // find sceneId and nextId according to from and to
                   let from = edge.from;
@@ -478,18 +471,14 @@
                     if (scene.editor_id == from){
                       sceneId = scene.id;
                     };
-                    if (scene.editor_id == to){
-                      nextId = scene.id;
-                    };
                   };
 
-                  if(sceneId != null && nextId != null){
+                  if(sceneId != null){
                     // build decision hash for post
                     let decision = {
                       decision: {
                         description: edge.text,
                         scene_id: sceneId,
-                        next_id: nextId,
                         previous_editor_id: from,
                         next_editor_id: to,
                         p1: Math.round(edge.points.j[0].x),
@@ -504,7 +493,7 @@
                     };
                     addDecision(projectId, sceneId, decision);
                   }else{
-                    console.log("sceneId or nextId missing")
+                    console.log("sceneId missing")
                   };
                 };
               };

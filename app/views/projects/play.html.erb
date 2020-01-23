@@ -2,17 +2,21 @@
   <h2><%= @project.name %></h2>
 
   <div class="proj-display">
-    
     <% @project.scenes.each do |s| %>
       <% if s.editor_id == -1 %>
         <p><%= s.content %></p>
+
         <% s.decisions.each do |d|%>
-          <p>
-            <%= link_to d.description, project_scene_path(@project, Scene.find(d.next_id)) %>
-          </p>
+          <% s.project.scenes.each do |ss| %>
+            <% if ss.editor_id == d.next_editor_id %>
+              <p>
+                <%= link_to d.description, project_scene_path(@project, ss) %>
+              </p>
+            <% end %>
+          <% end %>
         <% end %>
+
       <% end %>
     <% end %>
-
   </div>
 </div>
