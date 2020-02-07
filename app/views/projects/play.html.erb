@@ -4,7 +4,7 @@
   <div class="proj-display">
     <% @project.scenes.each do |s| %>
       <% if s.editor_id == -1 %>
-        <p><%= s.content %></p>
+        <p class="show-line-break"><%= s.content %></p>
 
         <% s.decisions.each do |d|%>
           <% s.project.scenes.each do |ss| %>

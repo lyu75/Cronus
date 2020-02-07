@@ -1,7 +1,7 @@
 <div class="container">
   <h2><%= @scene.project.name %></h2>
   <div class="proj-display">
-    <p><%= @scene.content %></p>
+      <p class="show-line-break"><%= @scene.content %></p>
 
     <% @scene.decisions.each do |d|%>
         <% @scene.project.scenes.each do |s| %>
