@@ -1,6 +1,7 @@
 class ProjectsController < ApplicationController
   skip_before_action :verify_authenticity_token
   before_action :set_project, only: [:show, :edit, :update, :destroy, :owner_workspace, :elaborate_scenes, :play]
+  before_action :authenticate_user!, only: [:new, :create, :owner_workspace, :elaborate_scenes, :update, :edit, :destroy]
 
   def new
     @project = Project.new

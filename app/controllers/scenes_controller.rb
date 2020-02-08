@@ -1,6 +1,7 @@
 class ScenesController < ApplicationController
   skip_before_action :verify_authenticity_token
   before_action :set_scene, only: [:show, :edit, :update, :destroy, :show_json]
+  before_action :authenticate_user!, only: [:create, :edit, :update, :destroy]
 
   def create
     @scene = Scene.create(scene_params)
