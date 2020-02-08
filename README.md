@@ -1,11 +1,11 @@
 ## Project Cronus
 
-A website for reading and writing interactive stories
+Project cronus is a website for reading and writing interactive stories
 
-A beta version of the website is accessible here: https://project-cronus.herokuapp.com/
+A beta version is accessible here: https://project-cronus.herokuapp.com/
 
 <hr />
 
-Rails app generated with [lewagon/rails-templates](https://github.com/lewagon/rails-templates), created by the [Le Wagon coding bootcamp](https://www.lewagon.com) team.
+This app was generated with this [template](https://github.com/lewagon/rails-templates), created by the [Le Wagon team](https://www.lewagon.com). 
 
-Chart template adopted from https://github.com/NorthwoodsSoftware/GoJS/blob/master/samples/stateChart.html
+Reference to the [Chart template](https://github.com/NorthwoodsSoftware/GoJS/blob/master/samples/stateChart.html)
