@@ -2,7 +2,8 @@
 
 Project cronus is a website for reading and writing interactive stories
 
-A beta version is accessible here: https://project-cronus.herokuapp.com/
+A beta version is accessible here: www.cronus.site
+
 
 <hr />
 
