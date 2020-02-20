@@ -6,9 +6,11 @@
     <% @scene.decisions.each do |d|%>
         <% @scene.project.scenes.each do |s| %>
           <% if s.editor_id == d.next_editor_id %>
-            <p>
-              <%= link_to d.description, project_scene_path(@scene.project, s) %>
-            </p>
+            <div class="no-text-overflow">
+              <p>
+                <%= link_to d.description, project_scene_path(@scene.project, s) %>
+              </p>
+            </div>
           <% end %>
         <% end %>
     <% end %>
