@@ -92,6 +92,10 @@ button:hover,.btn:hover{
   border-radius: 20px;
 }
 
+.show-line-break{
+  white-space: pre;
+}
+
 .new_project{
   margin: auto;
 }
@@ -118,3 +122,7 @@ button:hover,.btn:hover{
   float: right;
 }
 
+.no-text-overflow {
+  overflow-wrap: break-word;
+  word-break: break-word;
+}

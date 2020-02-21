@@ -1,6 +1,137 @@
 <div class="container">
   <h2><%= @project.name %></h2>
-  <p>Overview:</p>
+  <div id="sample">
+    <div id="editor">
+
+      <div id="diagramEditor">
+        <div id="myDiagramDiv" style="margin-top:15px;border: none; border-radius: 10px; width: 100%; height: 600px; background: #d7c8af"></div>
+        <div class="actions">
+          <p class="floatRight"><%= link_to "Elaborate Scenes", project_elaborate_scenes_path(@project) %></p>
+          <button id="SaveButton" onclick="save()">Save</button>
+          <button onclick="load()">Load</button>
+          <p class="center">Remember to save before you leave the page!</p>
+        </div>
+      </div>
+
+
+      <div class="sideBar text-center">
+
+        <div class="dropleft mb-2 mt-3">
+          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            What is this?
+          </button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <p class="m-2">
+              This is a schematic of your story.
+            </p>
+            <p class="m-2">
+              Double click the blank space in the editor to create a scene (branching point) for your story.
+            </p>
+            <p class="m-2">
+              They will be connected by arrows(decisions).
+            </p>
+          </div>
+        </div>
+
+        <div class="dropleft mb-2">
+          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Add a scene
+          </button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <p class="m-2">
+              To add a new scene, double click the blank space in the editor.
+            </p>
+            <p class="m-2">
+              Drag the new scene around to adjust its position. Double click it to give it a brief description (scene name).
+            </p>
+          </div>
+        </div>
+
+        <div class="dropleft mb-2">
+          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Connect scenes
+          </button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <p class="m-2">
+              Hover the mouse upon a scene until you see a hand.
+            </p>
+            <p class="m-2">
+              Click the scene and drag toward its destination.
+            </p>
+          </div>
+        </div>
+
+        <div class="dropleft mb-2">
+          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Add content to scene
+          </button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <p class="m-2">
+              Scroll down to find the description (name) of the scene you wish to add content to.
+            </p>
+            <p class="m-2">
+              Click, and you will be brought to another page to add content to the scene.
+            </p>
+          </div>
+        </div>
+
+        <div class="dropleft mb-2">
+          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Revoke last step
+          </button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <p class="m-2">
+              press ctrl-Z
+            </p>
+          </div>
+        </div>
+
+        <div class="dropleft mb-2">
+          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Modify arrow shape
+          </button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <p class="m-2">
+              Click the arrow, then move around the four points that define its shape.
+            </p>
+          </div>
+        </div>
+
+        <div class="dropleft mb-2">
+          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            *Don't delete start
+          </button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <p class="m-2">
+              The start node defines where the story begins. Without it, others won't be able to read your story.
+            </p>
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+
+
+    <div id="allScenes"></div>
+  <textarea id="mySavedModel" style="width:100%;height:300px">
+  <!--
+
+  { "class": "GraphLinksModel",
+    "nodeKeyProperty": "id",
+    "nodeDataArray": [
+  {"id":-1, "loc":"155 -138", "category":"Start"},
+  {"id":0, "loc":"190 15", "text":"Lu Miao"},
+  {"id":1, "loc":"353 32", "text":"Browse Items"}
+   ],
+    "linkDataArray": [
+  {"from":-1, "to":0, "text":"Visit online store", "points":[200.9629729076036,-63.96743795509042,207.28009415140457,-36.69798710088425,206.78172806502616,-10.695691829847046,196.16932689972282,15]},
+  {"from":0, "to":1, "progress":"true", "text":"Browse", "points":[225.5003662109375,24.202827496236104,250.51320982583232,20.16213461569489,273.86634398110573,22.59773756440466,304.43478304115314,32]}
+   ]}
+   -->
+   </textarea>
+  </div>
+</div>
 
 <script type="text/javascript" id="code">
    function init() {
@@ -370,9 +501,9 @@
         dataType: "json",
         success: function(data, textStatus, jqXHR){
           let oldScenes = data;
-          console.log("old scenes", oldScenes);
-          console.log("nodes in the editor", nodes);
-          console.log("edges in the editor", allEdges);
+          // console.log("old scenes", oldScenes);
+          // console.log("nodes in the editor", nodes);
+          // console.log("edges in the editor", allEdges);
 
           // check if we need to make any delete request
           for(var i=0;i<oldScenes.length;i++){
@@ -413,7 +544,7 @@
               }
             }
 
-            // build hash for scene
+            // build hash for one scene
             var text = node.text;
             var editor_id = node.id;
             var p = node.loc.split(" ");
@@ -522,8 +653,21 @@
           let edges = [];
           let hasStart = false;
 
+          document.getElementById("allScenes").innerHTML = "";
+
+          console.log("oldScenes", oldScenes);
           for (let i=0;i<oldScenes.length;i++){
             let scene = oldScenes[i];
+
+            let lt;
+            if(scene.editor_id == -1){
+              lt = "<div class=\"btn m-2\"><a href=\"\/projects\/" + projectId + "\/scenes\/" + scene.id + "\/edit\">" + "Start" +  "<\/a></div>"
+              document.getElementById("allScenes").innerHTML += lt;
+            }else{
+              lt = "<div class=\"btn m-2\"><a href=\"\/projects\/" + projectId + "\/scenes\/" + scene.id + "\/edit\">" + scene.summary +  "<\/a></div>"
+              document.getElementById("allScenes").innerHTML += lt;
+            }
+
 
             let node = null;
             if(scene.editor_id != -1){
@@ -584,36 +728,10 @@
           };
 
           myDiagram.model = go.Model.fromJson(model);
-
         },
         error: function(jqXHR, textStatus, errorThrown){
           console.log("faaaaaaa");
         }
       });
     }
-
 </script>
-
-<div id="sample">
-   <div id="myDiagramDiv" style="margin-top:15px;border: none; border-radius: 10px; width: 100%; height: 600px; background: #d7c8af"></div>
-    <div class="actions">
-      <p class="floatRight"><%= link_to "Elaborate Scenes", project_elaborate_scenes_path(@project) %></p>
-      <button id="SaveButton" onclick="save()">Save</button>
-      <button onclick="load()">Load</button>
-    </div>
-    <p class="center">Remember to save before you leave the page!</p>
-    <textarea id="mySavedModel" style="width:100%;height:300px">
-<!-- { "class": "GraphLinksModel",
-  "nodeKeyProperty": "id",
-  "nodeDataArray": [
-{"id":-1, "loc":"155 -138", "category":"Start"},
-{"id":0, "loc":"190 15", "text":"Lu Miao"},
-{"id":1, "loc":"353 32", "text":"Browse Items"}
- ],
-  "linkDataArray": [
-{"from":-1, "to":0, "text":"Visit online store", "points":[200.9629729076036,-63.96743795509042,207.28009415140457,-36.69798710088425,206.78172806502616,-10.695691829847046,196.16932689972282,15]},
-{"from":0, "to":1, "progress":"true", "text":"Browse", "points":[225.5003662109375,24.202827496236104,250.51320982583232,20.16213461569489,273.86634398110573,22.59773756440466,304.43478304115314,32]}
- ]}
- -->  </textarea>
-</div>
-</div>
