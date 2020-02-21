@@ -11,3 +11,15 @@
   display: inline-block;
   margin: 10px;
 }
+
+#wrapper{
+  display: flex;
+}
+#diagramWrapper{
+  width: 840px;
+  height: 1200px;
+}
+.sideBar{
+  width: 170px;
+  padding: 10px;
+}
