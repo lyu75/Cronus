@@ -6,55 +6,56 @@
       <div id="diagramEditor">
         <div id="myDiagramDiv" style="margin-top:15px;border: none; border-radius: 10px; width: 100%; height: 600px; background: #d7c8af"></div>
         <div class="actions">
-          <p class="floatRight"><%= link_to "Elaborate Scenes", project_elaborate_scenes_path(@project) %></p>
+          <!-- <p class="floatRight"><%= link_to "Elaborate Scenes", project_elaborate_scenes_path(@project) %></p> -->
           <button id="SaveButton" onclick="save()">Save</button>
           <button onclick="load()">Load</button>
-          <p class="center">Remember to save before you leave the page!</p>
         </div>
       </div>
+
 
 
       <div class="sideBar text-center">
 
         <div class="dropleft mb-2 mt-3">
+          <h3>FAQ</h3>
           <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            What is this?
+            What is this place?
           </button>
           <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
             <p class="m-2">
-              This is a schematic of your story.
+              This is a map of your story.
             </p>
             <p class="m-2">
-              Double click the blank space in the editor to create a scene (branching point) for your story.
+              A scene is a branching point for your story.
             </p>
             <p class="m-2">
-              They will be connected by arrows(decisions).
+              Scenes will be connected by arrows (decisions).
             </p>
           </div>
         </div>
 
         <div class="dropleft mb-2">
           <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Add a scene
+            How to add a scene?
           </button>
           <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
             <p class="m-2">
-              To add a new scene, double click the blank space in the editor.
+              Double click the blank space in the editor.
             </p>
             <p class="m-2">
-              Drag the new scene around to adjust its position. Double click it to give it a brief description (scene name).
+              Drag the new scene around to adjust its position. Double click it to give it a name.
             </p>
           </div>
         </div>
 
         <div class="dropleft mb-2">
           <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Connect scenes
+            Connecting the scenes
           </button>
           <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <p class="m-2">
+            <!-- <p class="m-2">
               Hover the mouse upon a scene until you see a hand.
-            </p>
+            </p> -->
             <p class="m-2">
               Click the scene and drag toward its destination.
             </p>
@@ -63,25 +64,28 @@
 
         <div class="dropleft mb-2">
           <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Add content to scene
+            Adding content to a scene
           </button>
           <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
             <p class="m-2">
               Scroll down to find the description (name) of the scene you wish to add content to.
             </p>
             <p class="m-2">
-              Click, and you will be brought to another page to add content to the scene.
+              Click to add content to the scene.
+            </p>
+            <p class="m-2">
+              You will be redirected to another page. Remember to save your progress first!
             </p>
           </div>
         </div>
 
         <div class="dropleft mb-2">
           <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Revoke last step
+            Undoing last step
           </button>
           <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
             <p class="m-2">
-              press ctrl-Z
+              Press ctrl+Z(PC) or command+Z(Mac)
             </p>
           </div>
         </div>
@@ -92,14 +96,14 @@
           </button>
           <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
             <p class="m-2">
-              Click the arrow, then move around the four points that define its shape.
+              Click the arrow, then move around the four points to define its shape.
             </p>
           </div>
         </div>
 
         <div class="dropleft mb-2">
           <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            *Don't delete start
+            <strong>Do not delete Start!</strong>
           </button>
           <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
             <p class="m-2">
@@ -107,13 +111,12 @@
             </p>
           </div>
         </div>
-
-
       </div>
     </div>
+    <div class="center">Remember: Save before you leave the page!</div>
 
-
-    <div id="allScenes"></div>
+  <div class="sceneList"><h3 class="center">Elaborate Your Scenes</h3>
+  <div id="allScenes"></div></div>
   <textarea id="mySavedModel" style="width:100%;height:300px">
   <!--
 
