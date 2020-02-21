@@ -1,0 +1,5 @@
+2020-01-28 22:02:08.816 EST [4601] LOG:  starting PostgreSQL 12.1 on x86_64-apple-darwin18.7.0, compiled by Apple clang version 11.0.0 (clang-1100.0.33.16), 64-bit
+2020-01-28 22:02:08.817 EST [4601] LOG:  could not translate host name "localhost", service "5432" to address: nodename nor servname provided, or not known
+2020-01-28 22:02:08.817 EST [4601] WARNING:  could not create listen socket for "localhost"
+2020-01-28 22:02:08.817 EST [4601] FATAL:  could not create any TCP/IP sockets
+2020-01-28 22:02:08.817 EST [4601] LOG:  database system is shut down
