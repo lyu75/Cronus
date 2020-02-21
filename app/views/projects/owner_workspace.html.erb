@@ -114,8 +114,8 @@
 
 
     <div id="allScenes"></div>
-  <!--
   <textarea id="mySavedModel" style="width:100%;height:300px">
+  <!--
 
   { "class": "GraphLinksModel",
     "nodeKeyProperty": "id",
@@ -128,8 +128,8 @@
   {"from":-1, "to":0, "text":"Visit online store", "points":[200.9629729076036,-63.96743795509042,207.28009415140457,-36.69798710088425,206.78172806502616,-10.695691829847046,196.16932689972282,15]},
   {"from":0, "to":1, "progress":"true", "text":"Browse", "points":[225.5003662109375,24.202827496236104,250.51320982583232,20.16213461569489,273.86634398110573,22.59773756440466,304.43478304115314,32]}
    ]}
-   </textarea>
    -->
+   </textarea>
   </div>
 </div>
 
@@ -653,11 +653,13 @@
           let edges = [];
           let hasStart = false;
 
+          document.getElementById("allScenes").innerHTML = "";
+
           console.log("oldScenes", oldScenes);
           for (let i=0;i<oldScenes.length;i++){
             let scene = oldScenes[i];
 
-            let lt = null;
+            let lt;
             if(scene.editor_id == -1){
               lt = "<div class=\"btn m-2\"><a href=\"\/projects\/" + projectId + "\/scenes\/" + scene.id + "\/edit\">" + "Start" +  "<\/a></div>"
               document.getElementById("allScenes").innerHTML += lt;
