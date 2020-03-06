@@ -1,20 +1,21 @@
-<div class="container">
-  <h2><%= @project.name %></h2>
+<div class="gradient"></div>
+<div class="wrkContainer">
+  <h3><%= @project.name %></h3>
   <div id="sample">
     <div id="editor">
 
       <div id="diagramEditor">
-        <div id="myDiagramDiv" style="margin-top:15px;border: none; border-radius: 10px; width: 100%; height: 600px; background: #d7c8af"></div>
+        <div id="myDiagramDiv"></div>
         <div class="actions">
           <!-- <p class="floatRight"><%= link_to "Elaborate Scenes", project_elaborate_scenes_path(@project) %></p> -->
-          <button id="SaveButton" onclick="save()">Save</button>
-          <button onclick="load()">Load</button>
+          <button class="floatRight moveUp"id="SaveButton" onclick="save()">Save</button>
+          <button class="floatRight moveUp"onclick="load()">Load</button>
         </div>
       </div>
 
 
 
-      <div class="sideBar text-center">
+     <!--  <div class="sideBar text-center">
 
         <div class="dropleft mb-2 mt-3">
           <h3>FAQ</h3>
@@ -53,9 +54,9 @@
             Connecting the scenes
           </button>
           <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <!-- <p class="m-2">
+            <p class="m-2">
               Hover the mouse upon a scene until you see a hand.
-            </p> -->
+            </p>
             <p class="m-2">
               Click the scene and drag toward its destination.
             </p>
@@ -112,10 +113,13 @@
           </div>
         </div>
       </div>
-    </div>
-    <div class="center">Remember: Save before you leave the page!</div>
+    </div> -->
+    <div class="center moveUp">Remember: Save before you leave the page!</div>
+  </div>
+  </div>
+  </div>
 
-  <div class="sceneList"><h3 class="center">Elaborate Your Scenes</h3>
+  <div class="sceneList"><h3>Current Scenes</h3>
   <div id="allScenes"></div></div>
   <textarea id="mySavedModel" style="width:100%;height:300px">
   <!--
@@ -134,7 +138,7 @@
    -->
    </textarea>
   </div>
-</div>
+
 
 <script type="text/javascript" id="code">
    function init() {
