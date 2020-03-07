@@ -1,6 +1,6 @@
 <div class="navbar navbar-expand-sm navbar-light navbar-lewagon">
   <%= link_to "/", class: "navbar-brand" do %>
-    <%= image_tag "realIcon.png", class: "img-responsive" %>
+    <%= image_tag "realIcon.png", class: "img-responsive",id:"homeIcn" %>
     <%= link_to "ronus", "/", class: "nav-link", id:"home" %>
   <% end %>
 
@@ -28,15 +28,3 @@
     </ul>
   </div>
 </div>
-
-<!--TODO: fix this-->
-<script type="text/javascript">
-window.onscroll = function() {
-  var currentScrollPos = window.pageYOffset;
-  if (currentScrollPos > "100px") {
-    document.getElementById("home").style.display = "none";
-  } else {
-    document.getElementById("home").style.display = "true";
-  }
-}
-</script>

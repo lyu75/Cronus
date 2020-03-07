@@ -1,15 +1,17 @@
 <h1>ronus</h1>
 <h2>Projects</h2>
 <div class="searchBar center">Search stories here</div>
-<!-- <div class='container'> -->
   <% @projects.each do |p| %>
     <div class="projects">
       <div class="coverPic"></div>
       <div class="projInfo">
-        <h3 class="floatleft"><%= link_to p.name, project_path(p) %></h3><br>
+        <h3><%= link_to p.name, project_path(p) %></h3><br>
         <p class="floatRight">by <%= p.user.username %></p>
     </div>
     </div>
   <% end %>
-<!-- </div>
- --><div class="footer center">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos perferendis facilis deleniti cumque, amet, ab sint vero laboriosam accusamus, dolor doloribus fugit adipisci? Atque in expedita laboriosam ipsa, dolor similique.</div>
+<div class="footer center">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos perferendis facilis deleniti cumque, amet, ab sint vero laboriosam accusamus, dolor doloribus fugit adipisci? Atque in expedita laboriosam ipsa, dolor similique.</div>
+<script type="text/javascript">
+  document.getElementById("home").style.display = "none";
+  document.getElementById("homeIcn").style.display = "none";
+</script>

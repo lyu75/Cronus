@@ -1,22 +1,13 @@
-body{
-  background: linear-gradient(#1F2021, rgba(255, 255, 255, 0) 106.25%), rgba(232, 235, 238, 0.83) 17.83%;
-}
-
-h3{
-  padding:20px;
-  padding-top:40px;
-}
 .wrkContainer{
   font-size: 15px;
   margin:auto;
   background-color:#eeeeee;
   color: #4F4F4F;
   margin-top: 30px;
-  margin-bottom: 70px;
+  padding-bottom:30px;
+  // margin-bottom: 70px;
   width: 80%;
-  height:600px;
-  border-radius: 20px;
-
+  border-radius: 10px;
 }
 .scene {
   color: rgb(100,100,200);
@@ -34,7 +25,7 @@ h3{
   margin-top: 100px;
   width: 80%;
   background-color:#eeeeee;
-  margin-bottom: 30px;
+  margin-bottom: 70px;
   padding: 3%;
   padding-top:0;
   border-radius: 20px;
@@ -45,11 +36,18 @@ h3{
   padding-left: 0;
 }
 
-// #editor{
-//   display: flex;
-// }
+.workHeader,.instruction{
+  margin-bottom: 10px;
+  padding-top:20px;
+  overflow:auto;
+}
+
+.workHeader{
+  margin: 15px;
+  padding-top: 35px;
+}
+
 #myDiagramDiv{
-  border-radius: 0px 0px 10px 10px;
   margin-top:15px;
   border: none;
   width: 100%;
@@ -57,13 +55,25 @@ h3{
   background: #1F2021;
 }
 
-.moveUp{
-  position:relative;
-  top: -70px;
-  right: 50px;
-}
+// .moveUp{
+//   position:relative;
+//   top: -65px;
+//   // right: 50px;
+// }
 
 .sideBar{
   width: 170px;
   padding: 10px;
+}
+
+.instruction{
+  margin-right: 10px;
+  font-size:13px;
+  float:right;
+  text-align:right;
+  color: #aaaaaa;
+  line-height: 2px;
+  position:relative;
+  top:80px;
+  z-index:2;
 }
