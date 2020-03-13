@@ -1,8 +1,8 @@
 <%= simple_form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
   <%= f.error_notification %>
-
+<div class="container">
+ <h3>Password Reset</h3>
   <div class="form-inputs">
-    <h2>Password Reset</h2>
     <%= f.input :email,
                 required: true,
                 autofocus: true,
@@ -12,7 +12,7 @@
   <div class="form-actions floatRight">
     <%= f.button :submit, "Reset password" %>
   </div>
-  <%= render "devise/shared/links" %>
+ <p style="text-decoration: underline;"> <<< <%= render "devise/shared/links" %></p>
 <% end %>
-
+</div>
 

@@ -1,11 +1,9 @@
 <div class='container'>
+  <h3>Edit Title/Description</h3>
   <div class="form-inputs">
-    <div class="new-project">
-    <%= form_for @project, method: "put"  do |f| %>
+      <%= form_for @project, method: "put"  do |f| %>
       <%= f.text_field :name , class: "new-proj", placeholder: @project.name%><br>
       <%= f.text_area :description, class: "new-proj", placeholder: @project.description %><br>
       <%= f.submit :class => "btn floatRight" %>
     <% end %>
     </div>
-  </div>
-</div>

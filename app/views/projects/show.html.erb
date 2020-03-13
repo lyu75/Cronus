@@ -1,6 +1,9 @@
-<div class="container">
-<h2><%= @project.name %></h2>
-<p><%= @project.description %></p>
-<p class="floatRight"><%= @project.user.username %></p>
-<p class="center"><strong><%= link_to "Start Here", project_play_path(@project) %></strong></p>
+<div class="storyContainer">
+  <div class="coverPic storyPic"></div>
+    <div class="storyInfo">
+      <h2 style="text-align:left;"><%= @project.name %></h2>
+        <p><strong>by <%= @project.user.username %></strong></p>
+        <p><%= @project.description %></p>
+        <p class="storyBtn btn floatRight"><%= link_to "Start Reading", project_play_path(@project) %></p>
+    </div>
 </div>

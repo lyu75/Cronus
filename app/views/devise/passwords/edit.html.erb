@@ -4,9 +4,10 @@
 
   <%= f.input :reset_password_token, as: :hidden %>
   <%= f.full_error :reset_password_token %>
-
+<div class="container">
+  <h3>Change your password</h3>
   <div class="form-inputs">
-    <h2>Change your password</h2>
+
     <%= f.input :password,
                 label: "New password",
                 required: true,
@@ -24,5 +25,5 @@
   </div>
   <%= render "devise/shared/links" %>
 <% end %>
-
+</div>
 

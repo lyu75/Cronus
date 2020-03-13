@@ -1,14 +1,16 @@
 // Specific CSS for your home-page
 body{
-  background-color: #d7c8af;
-  font-family: Baskerville Old Face, Perpetua, serif;
+  // background-color: #1F2021;
+  background: linear-gradient(#000000, #bbbbbb);
+  font-family: Avenir, Arial, sans-serif;
   font-size: 20px;
-  color: #5a4740;
+  color: white;
+  padding-top: 80px;
 }
 
 strong{
-  font-weight: 5px;
-  text-decoration: underline;
+  font-style:italic;
+  font-weight: 1;
 }
 
 textarea{
@@ -16,71 +18,148 @@ textarea{
   height: 200px;
 }
 
-h1,h2,h3{
-  font-family: Baskerville Old Face, Perpetua, serif;
-  font-size: 100px;
-}
-
 h1{
-  margin-top: 20px;
-  margin-bottom: 0;
+  margin:0;
+  font-size: 100px;
+  background-color:black;
+  padding-top: 220px;
+  padding-bottom: 300px;
+  padding-left: 150px;
   text-align: center;
+  background-image:url("realIcon.png");
+  background-size: 200px;
+  background-repeat: no-repeat;
+  background-position: 40% 45%;
 }
 
 h2{
-  font-size: 50px;
+  margin:0;
+  font-size: 70px;
+  background-color: black;
+  padding-bottom:20px;
   text-align: center;
 }
 
 h3{
   font-size:25px;
+  text-align:left;
 }
 
 form{
-  margin: auto;
+  width: 90%;
+  position:relative;
 }
 
+a {
+  color: white;
+  text-decoration: none;
+  background-color: transparent;
+}
+
+a:hover{
+  color:#cccccc;
+}
+
+.searchBar{
+  background-color:black;
+  color:#BDBDBD;
+}
 
 .container{
-  margin: auto;
-  margin-top: 30px;
-  margin-bottom: 30px;
+  font-size: 15px;
+  background-color:#eeeeee;
+  color: #4F4F4F;
+  margin-left: 30%;
+  margin-top: 90px;
+  margin-bottom: 100px;
   padding: 3%;
-  width: 80%;
-  background-color: #e6d7c3;
-  border-radius: 20px;
+  width: 45%;
+  box-shadow: 0 0 30px #dddddd;
+  padding-bottom:5%;
+}
+
+.container a{
+  color:#4F4F4F;
+}
+
+.footer{
+  background-color: black;
+  font-size:10px;
+  color:#BDBDBD;
+  padding: 5%;
+  padding-top:1%;
+  padding-bottom:1%;
 }
 
 .projects{
-  width:300px;
-  background-color:#d7c8af;
-  border-radius: 20px;
-  padding:2%;
+  width:22%;
+  background-color:black;
+  border-radius: 10px;
   text-align:center;
   display: inline-block;
-  margin: 10px;
+  margin-top: 5%;
+  margin-bottom: 5%;
+  margin-left: 50px;
 }
 
-.new_user{
-  margin-top: 30px;
-  margin-bottom: 30px;
-  padding: 3%;
-  width: 40%;
-  background-color: #e6d7c3;
-  border-radius: 30px;
+.projInfo{
+  margin:5%;
+}
+
+.coverPic{
+  margin:auto;
+  height:250px;
+  border-radius: 10px 10px 0px 0px;
+  // background-image: url("defaltCover.png");
+  background-color: #444444;
+  background-image: url("realIcon.png");
+  background-size: 50%;
+  background-repeat:no-repeat;
+  background-position: 40% 70%;
+  // background-size: 10%;
 }
 
 button,.btn{
-  background-color: #b99673;
+  background-color: #1F2021;
   font-size: 20px;
-  color:#5a4740;
+  color:#eeeeee;
   border:none;
   border-radius:5px;
+  // margin-left: 3%;
 }
 
 button:hover,.btn:hover{
-  background-color:#a3805c;
+  background-color:#636769;
+  color:white;
 }
+
+.btn:disabled:hover{
+  background-color: #1F2021;
+}
+
+.dropdown-content {
+  font-size: 15px;
+  display: none;
+  position: absolute;
+  right: 0px;
+  bottom: 0px;
+  background-color: #f1f1f1;
+  z-index: 1;
+}
+
+.dropdown-content a {
+  text-align:left;
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content a:hover{
+  background-color: #bbbbbb;
+}
+
+.dropdown:hover .dropdown-content {display: block;}
 
 .proj-display{
   margin: auto;
@@ -96,14 +175,9 @@ button:hover,.btn:hover{
   white-space: pre;
 }
 
-.new_project{
-  margin: auto;
-}
-
 .new-proj{
     margin-bottom: 10px;
-    margin-left: 25%;
-    width: 50%;
+    width:100%;
 }
 
 #mySavedModel{
@@ -120,9 +194,50 @@ button:hover,.btn:hover{
 
 .floatRight{
   float: right;
+  margin-right: 2%;
+}
+
+.floatleft{
+  float:left;
 }
 
 .no-text-overflow {
   overflow-wrap: break-word;
   word-break: break-word;
+}
+
+.storyContainer{
+  background-color:black;
+  margin:auto;
+  width: 1000px;
+  margin-bottom: 5%;
+  margin-top: 5%;
+  height: 500px;
+  padding-bottom:2%;
+  border-radius:10px;
+}
+
+.storyInfo{
+  padding-top: 25px;
+  padding-left:520px;
+  padding-right: 30px;
+}
+
+.storyPic{
+  width:50%;
+  float:left;
+  height:500px;
+  border-radius: 10px 0px 0px 10px;
+}
+
+.storyBtn{
+  border: 1px solid #F4F4F4;
+  position:relative;
+  bottom: -30px;
+}
+
+#sceneContent{
+  background-color: #1F2021;
+  padding: 2%;
+  color:#eeeeee;
 }

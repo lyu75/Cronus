@@ -1,7 +1,5 @@
-<div class="container">
-  <h2><%= @project.name %></h2>
-
-  <div class="proj-display">
+<h2 style="background-color: transparent; text-align:left;margin-left: 30%;margin-top: 10px;"><%= @project.name %></h2>
+<div class="container", style="margin-top:10px; overflow:auto;">
     <% @project.scenes.each do |s| %>
       <% if s.editor_id == -1 %>
         <p class="show-line-break"><%= s.content %></p>
@@ -20,5 +18,4 @@
 
       <% end %>
     <% end %>
-  </div>
 </div>

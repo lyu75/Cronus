@@ -1,10 +1,17 @@
-<h1>Cronus</h1>
-<div class="center">Archive of non-linear stories</div>
-<div class='container'>
+<h1>ronus</h1>
+<h2>Projects</h2>
+<div class="searchBar center">Search stories here</div>
   <% @projects.each do |p| %>
     <div class="projects">
-      <h3><%= link_to p.name, project_path(p) %></h3>
-      <p><%= p.user.username %></p>
+      <div class="coverPic"></div>
+      <div class="projInfo">
+        <h3><%= link_to p.name, project_path(p) %></h3><br>
+        <p class="floatRight">by <%= p.user.username %></p>
+    </div>
     </div>
   <% end %>
-</div>
+<div class="footer center">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos perferendis facilis deleniti cumque, amet, ab sint vero laboriosam accusamus, dolor doloribus fugit adipisci? Atque in expedita laboriosam ipsa, dolor similique.</div>
+<script type="text/javascript">
+  document.getElementById("home").style.display = "none";
+  document.getElementById("homeIcn").style.display = "none";
+</script>
