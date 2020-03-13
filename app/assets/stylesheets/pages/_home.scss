@@ -110,7 +110,13 @@ a:hover{
   margin:auto;
   height:250px;
   border-radius: 10px 10px 0px 0px;
-  background-image: url("defaltCover.png");
+  // background-image: url("defaltCover.png");
+  background-color: #444444;
+  background-image: url("realIcon.png");
+  background-size: 50%;
+  background-repeat:no-repeat;
+  background-position: 40% 70%;
+  // background-size: 10%;
 }
 
 button,.btn{
