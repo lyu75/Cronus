@@ -1,7 +1,7 @@
+<h2 style="background-color: transparent; text-align:left;margin-left: 30%;margin-top: 10px;"><%= @scene.project.name %></h2>
 <div class="container">
-  <h2><%= @scene.project.name %></h2>
-  <div class="proj-display">
-      <p class="show-line-break"><%= @scene.content %></p>
+  <div>
+    <p class="show-line-break"><%= @scene.content %></p>
 
     <% @scene.decisions.each do |d|%>
         <% @scene.project.scenes.each do |s| %>
