@@ -1,9 +1,10 @@
-<h1>ronus</h1>
+<div class="logo"><%= image_tag "realIcon.png", class:"logoImg" %>
+<h1>ronus</h1></div>
 <div><h2>Projects</h2>
-<div class="searchBar center">Search stories here</div></div>
+<!-- <div class="searchBar center">Search stories here</div> --></div>
   <% @projects.each do |p| %>
     <div class="projects">
-      <div class="coverPic"></div>
+      <div class="coverPic"><%= image_tag "realIcon.png", class:"coverImg"%></div>
       <div class="projInfo">
         <h3><%= link_to p.name, project_path(p) %></h3><br>
         <p class="floatRight">by <%= p.user.username %></p>
