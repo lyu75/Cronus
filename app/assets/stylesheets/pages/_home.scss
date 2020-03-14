@@ -22,14 +22,14 @@ h1{
   margin:0;
   font-size: 100px;
   background-color:black;
-  padding-top: 220px;
+  // padding-top: 220px;
   padding-bottom: 300px;
   padding-left: 150px;
   text-align: center;
-  background-image:url("/assets/realIcon.png");
-  background-size: 200px;
-  background-repeat: no-repeat;
-  background-position: 40% 45%;
+  // background-image:url("/assets/realIcon.png");
+  // background-size: 200px;
+  // background-repeat: no-repeat;
+  // background-position: 40% -20%;
 }
 
 h2{
@@ -65,6 +65,24 @@ a:hover{
   color:#BDBDBD;
 }
 
+.logo{
+  background-color:black;
+}
+
+.logoImg{
+  width:200px;
+  position:relative;
+  top: 220px;
+  left: 490px;
+}
+
+.coverImg{
+  width:150px;
+  position:relative;
+  top:25px;
+  left:-15px;
+}
+
 .container{
   font-size: 15px;
   background-color:#eeeeee;
@@ -92,14 +110,14 @@ a:hover{
 }
 
 .projects{
-  width:22%;
+  width:26%;
   background-color:black;
   border-radius: 10px;
   text-align:center;
   display: inline-block;
-  margin-top: 5%;
-  margin-bottom: 5%;
-  margin-left: 50px;
+  margin-top: 2.5%;
+  margin-left: 5%;
+  margin-bottom: 2.5%;
 }
 
 .projInfo{
@@ -112,10 +130,10 @@ a:hover{
   border-radius: 10px 10px 0px 0px;
   // background-image: url("defaltCover.png");
   background-color: #333333;
-  background-image: url("/assets/realIcon.png");
-  background-size: 50%;
-  background-repeat:no-repeat;
-  background-position: 40% 70%;
+  // background-image: url("/assets/realIcon.png");
+  // background-size: 50%;
+  // background-repeat:no-repeat;
+  // background-position: 40% 70%;
   // background-size: 10%;
 }
 
@@ -229,6 +247,13 @@ button:hover,.btn:hover{
   float:left;
   height:500px;
   border-radius: 10px 0px 0px 10px;
+}
+
+.storyImg{
+  width:300px;
+  position:relative;
+  top:70px;
+  left:80px;
 }
 
 .storyBtn{

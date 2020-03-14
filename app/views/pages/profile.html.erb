@@ -1,6 +1,6 @@
 <h2><%= current_user.username %>'s Projects</h2>
   <div class='projects'>
-        <div class="coverPic"></div>
+        <div class="coverPic"><div class="coverPic"><%= image_tag "realIcon.png", class:"coverImg"%></div></div>
         <div class="projInfo">
           <br><br>
           <p class="btn floatRight"><%= link_to "+ Add a Story", new_project_path %></p>
@@ -9,7 +9,7 @@
 
     <% @projects.each do |p| %>
     <div class='projects'>
-      <div class="coverPic"></div>
+      <div class="coverPic"><div class="coverPic"><%= image_tag "realIcon.png", class:"coverImg"%></div></div>
         <div class="projInfo">
           <h3 class="floatleft"><%= link_to p.name, project_path(p) %></h3><br><br>
           <div class="dropdown">
