@@ -171,9 +171,9 @@ button:hover,.btn:hover{
   border-radius: 20px;
 }
 
-.show-line-break{
-  white-space: pre;
-}
+// .show-line-break{
+//   white-space: pre;
+// }
 
 .new-proj{
     margin-bottom: 10px;
@@ -201,10 +201,11 @@ button:hover,.btn:hover{
   float:left;
 }
 
-.no-text-overflow {
-  overflow-wrap: break-word;
-  word-break: break-word;
-}
+// .no-text-overflow {
+//   overflow-wrap: break-word;
+//   word-wrap: break-word;
+//   hyphens: auto;
+// }
 
 .storyContainer{
   background-color:black;

@@ -2,12 +2,12 @@
 <div class="container", style="margin-top:10px; overflow:auto;">
     <% @project.scenes.each do |s| %>
       <% if s.editor_id == -1 %>
-        <p class="show-line-break"><%= s.content %></p>
+        <p><%= s.content%></p>
 
         <% s.decisions.each do |d|%>
           <% s.project.scenes.each do |ss| %>
             <% if ss.editor_id == d.next_editor_id %>
-              <div class="no-text-overflow">
+              <div style="text-decoration:underline;">
                 <p>
                   <%= link_to d.description, project_scene_path(@project, ss) %>
                 </p>
