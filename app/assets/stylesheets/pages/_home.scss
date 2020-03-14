@@ -26,7 +26,7 @@ h1{
   padding-bottom: 300px;
   padding-left: 150px;
   text-align: center;
-  background-image:url("realIcon.png");
+  background-image:url("/assets/realIcon.png");
   background-size: 200px;
   background-repeat: no-repeat;
   background-position: 40% 45%;
@@ -111,8 +111,8 @@ a:hover{
   height:250px;
   border-radius: 10px 10px 0px 0px;
   // background-image: url("defaltCover.png");
-  background-color: #444444;
-  background-image: url("realIcon.png");
+  background-color: #333333;
+  background-image: url("/assets/realIcon.png");
   background-size: 50%;
   background-repeat:no-repeat;
   background-position: 40% 70%;
