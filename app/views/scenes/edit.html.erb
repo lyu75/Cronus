@@ -14,12 +14,7 @@
   </div> -->
 
 
-  <div>
-    <p>Decisions: </p>
-    <% @scene.decisions.each do |d| %>
-      <p><%= d.description %></p>
-    <% end %>
-  </div>
+
 
 <script type="text/javascript" id="code">
   var projectId = <%= @scene.project.id %>;
@@ -88,4 +83,12 @@
     <button onclick="save()">Save scene content</button>
     <button onclick="load()">Load scene content</button>
 </div>
+  <div>
+    <br><br><br>
+    <h4>Decisions: </h4>
+    <br>
+    <% @scene.decisions.each do |d| %>
+      <p style="font-size: 15pt;">· <%= d.description %></p>
+    <% end %>
+  </div>
 </div>

@@ -1,6 +1,7 @@
 <div class="logo"><%= image_tag "title.png", class:"logoImg" %>
+<div><a href="#projects"><%= image_tag "down.png", class:"arrow"%></a></div>
 <!-- <h1>ronus</h1> --></div>
-<div><h2>Projects</h2>
+<div><h2 id="projects">Projects</h2>
 <!-- <div class="searchBar center">Search stories here</div> --></div>
   <% @projects.each do |p| %>
     <div class="projects">
@@ -15,4 +16,31 @@
 <script type="text/javascript">
   document.getElementById("home").style.display = "none";
   document.getElementById("homeIcn").style.display = "none";
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+  // Add smooth scrolling to all links
+  $("a").on('click', function(event) {
+
+    // Make sure this.hash has a value before overriding default behavior
+    if (this.hash !== "") {
+      // Prevent default anchor click behavior
+      event.preventDefault();
+
+      // Store hash
+      var hash = this.hash;
+
+      // Using jQuery's animate() method to add smooth page scroll
+      // The optional number (800) specifies the number of milliseconds it takes to scroll to the specified area
+      $('html, body').animate({
+        scrollTop: $(hash).offset().top
+      }, 300, function(){
+
+        // Add hash (#) to URL when done scrolling (default click behavior)
+        window.location.hash = hash;
+      });
+    } // End if
+  });
+});
 </script>

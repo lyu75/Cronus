@@ -16,7 +16,7 @@
           <%= image_tag "userIcon.png", class: "avatar dropdown-toggle", id: "navbarDropdown", data: { toggle: "dropdown" }, 'aria-haspopup': true, 'aria-expanded': false %>
           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
             <%= link_to "My Projects", "/profile", class: "dropdown-item" %>
-            <%= link_to "Edit Info", "/users/edit", class: "dropdown-item" %>
+            <%= link_to "Edit My Info", "/users/edit", class: "dropdown-item" %>
             <%= link_to "Sign out", destroy_user_session_path, method: :delete, class: "dropdown-item" %>
           </div>
         </li>
