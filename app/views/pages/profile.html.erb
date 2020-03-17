@@ -23,15 +23,11 @@
       </div>
 
       <% if(!p.published) %>
-
-        <div id="btn-publish">
-          <button id='publish' onclick="publish(<%= p.id %>)">Publish</button>
-        </div>
+          <button class="btn floatleft" id='publish' onclick="publish(<%= p.id %>)">Publish</button>
+          <button class="btn floatleft" id='bring-offline' onclick="bringOffline(<%= p.id %>)" style="display: none;">Bring Offline</button>
       <% else %>
-
-        <div id="btn-bring-offline">
-          <button id='bring-offline' onclick="bringOffline(<%= p.id %>)">Bring Offline</button>
-        </div>
+          <button class="btn floatleft" id='publish' onclick="publish(<%= p.id %>)" style="display: none;">Publish</button>
+          <button class="btn floatleft" id='bring-offline' onclick="bringOffline(<%= p.id %>)">Bring Offline</button>
       <% end %>
 
       <p class="btn floatRight"><%= link_to "Delete", project_path(p), method: :delete, data: {confirm: "Are you sure you want to delete this?"} %></p>
@@ -56,6 +52,7 @@
         console.log("faaaaaaa");
       }
     });
+    window.location.reload(true);
   }
 
   function bringOffline(projectId){
@@ -74,5 +71,6 @@
         console.log("faaaaaaa");
       }
     });
+    window.location.reload(true);
   }
 </script>
