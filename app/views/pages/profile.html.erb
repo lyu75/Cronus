@@ -23,15 +23,9 @@
       </div>
 
       <% if(!p.published) %>
-
-        <div id="btn-publish">
-          <button id='publish' onclick="publish(<%= p.id %>)">Publish</button>
-        </div>
+          <button class="btn floatleft" id='publish' onclick="publish(<%= p.id %>)">Publish</button>
       <% else %>
-
-        <div id="btn-bring-offline">
-          <button id='bring-offline' onclick="bringOffline(<%= p.id %>)">Bring Offline</button>
-        </div>
+          <button class="btn floatleft" id='bring-offline' onclick="bringOffline(<%= p.id %>)">Bring Offline</button>
       <% end %>
 
       <p class="btn floatRight"><%= link_to "Delete", project_path(p), method: :delete, data: {confirm: "Are you sure you want to delete this?"} %></p>
@@ -50,7 +44,7 @@
       }},
       success: function(data, textStatus, jqXHR){
         console.log("eihei!");
-        document.getElementById("btn-publish").innerHTML="Published";
+        window.location.reload(true);
       },
       error: function(jqXHR, textStatus, errorThrown){
         console.log("faaaaaaa");
@@ -68,7 +62,7 @@
       }},
       success: function(data, textStatus, jqXHR){
         console.log("eihei!");
-        document.getElementById("btn-bring-offline").innerHTML="Brought Offline";
+        window.location.reload(true);
       },
       error: function(jqXHR, textStatus, errorThrown){
         console.log("faaaaaaa");
