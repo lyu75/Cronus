@@ -23,12 +23,12 @@
       </div>
 
       <% if(!p.published) %>
-        <div id="btn-publish">
-          <button id='publish' onclick="publish(<%= p.id %>)">Publish</button>
+        <div class="floatleft" id="btn-publish">
+          <button class="btn" id='publish' onclick="publish(<%= p.id %>)">Publish</button>
         </div>
       <% else %>
-        <div id="btn-bring-offline">
-          <button id='bring-offline' onclick="bringOffline(<%= p.id %>)">Bring Offline</button>
+        <div class="floatleft" id="btn-bring-offline">
+          <button class="btn" id='bring-offline' onclick="bringOffline(<%= p.id %>)">Bring Offline</button>
         </div>
       <% end %>
 
