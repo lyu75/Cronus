@@ -24,9 +24,7 @@
 
       <% if(!p.published) %>
           <button class="btn floatleft" id='publish' onclick="publish(<%= p.id %>)">Publish</button>
-          <button class="btn floatleft" id='bring-offline' onclick="bringOffline(<%= p.id %>)" style="display: none;">Bring Offline</button>
       <% else %>
-          <button class="btn floatleft" id='publish' onclick="publish(<%= p.id %>)" style="display: none;">Publish</button>
           <button class="btn floatleft" id='bring-offline' onclick="bringOffline(<%= p.id %>)">Bring Offline</button>
       <% end %>
 
@@ -46,13 +44,12 @@
       }},
       success: function(data, textStatus, jqXHR){
         console.log("eihei!");
-        document.getElementById("btn-publish").innerHTML="Published";
+        window.location.reload(true);
       },
       error: function(jqXHR, textStatus, errorThrown){
         console.log("faaaaaaa");
       }
     });
-    window.location.reload(true);
   }
 
   function bringOffline(projectId){
@@ -65,12 +62,11 @@
       }},
       success: function(data, textStatus, jqXHR){
         console.log("eihei!");
-        document.getElementById("btn-bring-offline").innerHTML="Brought Offline";
+        window.location.reload(true);
       },
       error: function(jqXHR, textStatus, errorThrown){
         console.log("faaaaaaa");
       }
     });
-    window.location.reload(true);
   }
 </script>
