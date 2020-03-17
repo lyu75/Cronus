@@ -5,11 +5,15 @@
 <!-- <div class="searchBar center">Search stories here</div> --></div>
   <% @projects.each do |p| %>
     <div class="projects">
-      <div class="coverPic"><%= image_tag "realIcon.png", class:"coverImg"%></div>
-      <div class="projInfo">
-        <h3><%= link_to p.name, project_path(p) %></h3><br>
-        <p class="floatRight">by <%= p.user.username %></p>
-    </div>
+
+      <% if(p.published) %>
+        <div class="coverPic"><%= image_tag "realIcon.png", class:"coverImg"%></div>
+        <div class="projInfo">
+          <h3><%= link_to p.name, project_path(p) %></h3><br>
+          <p class="floatRight">by <%= p.user.username %></p>
+        </div>
+      <% end %>
+
     </div>
   <% end %>
 <div class="footer center">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos perferendis facilis deleniti cumque, amet, ab sint vero laboriosam accusamus, dolor doloribus fugit adipisci? Atque in expedita laboriosam ipsa, dolor similique.</div>

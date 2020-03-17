@@ -148,604 +148,604 @@
 
 
 <script type="text/javascript" id="code">
-   function init() {
-      if (window.goSamples) goSamples();  // init for these samples -- you don't need to call this
-      var $ = go.GraphObject.make;  // for conciseness in defining templates
-      // some constants that will be reused within templates
-      var roundedRectangleParams = {
-        parameter1: 2,  // set the rounded corner
-        spot1: go.Spot.TopLeft, spot2: go.Spot.BottomRight  // make content go all the way to inside edges of rounded corners
-      };
-      myDiagram =
-        $(go.Diagram, "myDiagramDiv",  // must name or refer to the DIV HTML element
+  function init() {
+    if (window.goSamples) goSamples();  // init for these samples -- you don't need to call this
+    var $ = go.GraphObject.make;  // for conciseness in defining templates
+    // some constants that will be reused within templates
+    var roundedRectangleParams = {
+      parameter1: 2,  // set the rounded corner
+      spot1: go.Spot.TopLeft, spot2: go.Spot.BottomRight  // make content go all the way to inside edges of rounded corners
+    };
+    myDiagram =
+      $(go.Diagram, "myDiagramDiv",  // must name or refer to the DIV HTML element
+        {
+          "animationManager.initialAnimationStyle": go.AnimationManager.None,
+          "InitialAnimationStarting": function(e) {
+              var animation = e.subject.defaultAnimation;
+              animation.easing = go.Animation.EaseOutExpo;
+              animation.duration = 900;
+              animation.add(e.diagram, 'scale', 0.1, 1);
+              animation.add(e.diagram, 'opacity', 0, 1);
+          },
+          // have mouse wheel events zoom in and out instead of scroll up and down
+          "toolManager.mouseWheelBehavior": go.ToolManager.WheelZoom,
+          // support double-click in background creating a new node
+          "clickCreatingTool.archetypeNodeData": { text: "new scene" },
+          // enable undo & redo
+          "undoManager.isEnabled": true,
+          positionComputation: function (diagram, pt) {
+            return new go.Point(Math.floor(pt.x), Math.floor(pt.y));
+          }
+        });
+    // when the document is modified, add a "*" to the title and enable the "Save" button
+    myDiagram.addDiagramListener("Modified", function (e) {
+      var button = document.getElementById("SaveButton");
+      if (button) button.disabled = !myDiagram.isModified;
+      var idx = document.title.indexOf("*");
+      if (myDiagram.isModified) {
+        if (idx < 0) document.title += "*";
+      } else {
+        if (idx >= 0) document.title = document.title.substr(0, idx);
+      }
+    });
+    // define the Node template
+    myDiagram.nodeTemplate =
+      $(go.Node, "Auto",
+        {
+          locationSpot: go.Spot.TopCenter,
+          isShadowed: true, shadowBlur: 1,
+          shadowOffset: new go.Point(0, 1),
+          shadowColor: "rgba(0, 0, 0, .14)"
+        },
+        new go.Binding("location", "loc", go.Point.parse).makeTwoWay(go.Point.stringify),
+        // define the node's outer shape, which will surround the TextBlock
+        $(go.Shape, "RoundedRectangle", roundedRectangleParams,
           {
-            "animationManager.initialAnimationStyle": go.AnimationManager.None,
-            "InitialAnimationStarting": function(e) {
-                var animation = e.subject.defaultAnimation;
-                animation.easing = go.Animation.EaseOutExpo;
-                animation.duration = 900;
-                animation.add(e.diagram, 'scale', 0.1, 1);
-                animation.add(e.diagram, 'opacity', 0, 1);
+            name: "SHAPE", fill: "#ffffff", strokeWidth: 0,
+            stroke: null,
+            portId: "",  // this Shape is the Node's port, not the whole Node
+            fromLinkable: true, fromLinkableSelfNode: true, fromLinkableDuplicates: true,
+            toLinkable: true, toLinkableSelfNode: true, toLinkableDuplicates: true,
+            cursor: "pointer"
+          }),
+        $(go.TextBlock,
+          {
+            font: "bold small-caps 11pt helvetica, bold arial, sans-serif", margin: 7, stroke: "rgba(0, 0, 0, .87)",
+            editable: true  // editing the text automatically updates the model data
+          },
+          new go.Binding("text").makeTwoWay())
+      );
+    // unlike the normal selection Adornment, this one includes a Button
+    myDiagram.nodeTemplate.selectionAdornmentTemplate =
+      $(go.Adornment, "Spot",
+        $(go.Panel, "Auto",
+          $(go.Shape, "RoundedRectangle", roundedRectangleParams,
+          { fill: null, stroke: "#7986cb", strokeWidth: 3 }),
+          $(go.Placeholder)  // a Placeholder sizes itself to the selected Node
+        ),
+        // the button to create a "next" node, at the top-right corner
+        $("Button",
+          {
+            alignment: go.Spot.TopRight,
+            click: addNodeAndLink  // this function is defined below
+          },
+          $(go.Shape, "PlusLine", { width: 6, height: 6 })
+        ) // end button
+      ); // end Adornment
+    myDiagram.nodeTemplateMap.add("Start",
+      $(go.Node, "Spot", { desiredSize: new go.Size(75, 75) },
+        new go.Binding("location", "loc", go.Point.parse).makeTwoWay(go.Point.stringify),
+        $(go.Shape, "Circle",
+          {
+            fill: "#000000",
+            stroke: null,
+            portId: "",
+            fromLinkable: true, fromLinkableSelfNode: true, fromLinkableDuplicates: true,
+            toLinkable: true, toLinkableSelfNode: true, toLinkableDuplicates: true,
+            cursor: "pointer"
+          }),
+        $(go.TextBlock, "Start",
+          {
+            font: "16pt helvetica, sans-serif",
+            stroke: "whitesmoke"
+          })
+      )
+    );
+    myDiagram.nodeTemplateMap.add("End",
+      $(go.Node, "Spot", { desiredSize: new go.Size(75, 75) },
+        new go.Binding("location", "loc", go.Point.parse).makeTwoWay(go.Point.stringify),
+        $(go.Shape, "Circle",
+          {
+            fill: "maroon",
+            stroke: null,
+            portId: "",
+            fromLinkable: true, fromLinkableSelfNode: true, fromLinkableDuplicates: true,
+            toLinkable: true, toLinkableSelfNode: true, toLinkableDuplicates: true,
+            cursor: "pointer"
+          }),
+        $(go.Shape, "Circle", { fill: null, desiredSize: new go.Size(65, 65), strokeWidth: 2, stroke: "whitesmoke" }),
+        $(go.TextBlock, "End",
+          {
+            font: "bold 16pt helvetica, bold arial, sans-serif",
+            stroke: "whitesmoke"
+          })
+      )
+    );
+
+    // clicking the button inserts a new node to the right of the selected node,
+    // and adds a link to that new node
+    function addNodeAndLink(e, obj) {
+      var adornment = obj.part;
+      var diagram = e.diagram;
+      diagram.startTransaction("Add State");
+      // get the node data for which the user clicked the button
+      var fromNode = adornment.adornedPart;
+      var fromData = fromNode.data;
+      // create a new "State" data object, positioned off to the right of the adorned Node
+      var toData = { text: "new" };
+      var p = fromNode.location.copy();
+      p.x += 200;
+      toData.loc = go.Point.stringify(p);  // the "loc" property is a string, not a Point object
+      // add the new node data to the model
+      var model = diagram.model;
+      model.addNodeData(toData);
+      // create a link data from the old node data to the new node data
+      var linkdata = {
+        from: model.getKeyForNodeData(fromData),  // or just: fromData.id
+        to: model.getKeyForNodeData(toData),
+        text: "decision"
+      };
+      // and add the link data to the model
+      model.addLinkData(linkdata);
+      // select the new Node
+      var newnode = diagram.findNodeForData(toData);
+      diagram.select(newnode);
+      diagram.commitTransaction("Add State");
+      // if the new node is off-screen, scroll the diagram to show the new node
+      diagram.scrollToRect(newnode.actualBounds);
+    }
+    // replace the default Link template in the linkTemplateMap
+    myDiagram.linkTemplate =
+      $(go.Link,  // the whole link panel
+        {
+          curve: go.Link.Bezier,
+          adjusting: go.Link.Stretch,
+          reshapable: true, relinkableFrom: true, relinkableTo: true,
+          toShortLength: 3
+        },
+        new go.Binding("points").makeTwoWay(),
+        new go.Binding("curviness"),
+        $(go.Shape,  // the link shape
+          { strokeWidth: 1.5 },
+          new go.Binding('stroke', 'progress', function(progress) {
+            return progress ? "#52ce60" /* green */ : 'black';
+          }),
+          new go.Binding('strokeWidth', 'progress', function(progress) {
+            return progress ? 2.5 : 1.5;
+          })
+          ),
+        $(go.Shape,  // the arrowhead
+          { toArrow: "standard", stroke: null },
+          new go.Binding('fill', 'progress', function(progress) {
+            return progress ? "#52ce60" /* green */ : 'black';
+          }),
+          ),
+        $(go.Panel, "Auto",
+          $(go.Shape,  // the label background, which becomes transparent around the edges
+            {
+              fill: $(go.Brush, "Radial",
+                { 0: "rgb(245, 245, 245)", 0.7: "rgb(245, 245, 245)", 1: "rgba(245, 245, 245, 0)" }),
+              stroke: null
+            }),
+          $(go.TextBlock, "decisiono",  // the label text
+            {
+              textAlign: "center",
+              font: "9pt helvetica, arial, sans-serif",
+              margin: 4,
+              editable: true  // enable in-place editing
             },
-            // have mouse wheel events zoom in and out instead of scroll up and down
-            "toolManager.mouseWheelBehavior": go.ToolManager.WheelZoom,
-            // support double-click in background creating a new node
-            "clickCreatingTool.archetypeNodeData": { text: "new scene" },
-            // enable undo & redo
-            "undoManager.isEnabled": true,
-            positionComputation: function (diagram, pt) {
-              return new go.Point(Math.floor(pt.x), Math.floor(pt.y));
-            }
-          });
-      // when the document is modified, add a "*" to the title and enable the "Save" button
-      myDiagram.addDiagramListener("Modified", function (e) {
-        var button = document.getElementById("SaveButton");
-        if (button) button.disabled = !myDiagram.isModified;
-        var idx = document.title.indexOf("*");
-        if (myDiagram.isModified) {
-          if (idx < 0) document.title += "*";
-        } else {
-          if (idx >= 0) document.title = document.title.substr(0, idx);
+            // editing the text automatically updates the model data
+            new go.Binding("text").makeTwoWay())
+        )
+      );
+    // read in the JSON data from the "mySavedModel" element
+    load();
+  }
+
+  // delete a scene
+  function deleteScene(projectId, sceneId, editorId){
+    if(editorId != -1){
+      $.ajax({
+        type: "DELETE",
+        url:"/projects/"+projectId+"/scenes/"+sceneId,
+        success: function(data, textStatus, jqXHR){
+          console.log("eihei!");
+        },
+        error: function(jqXHR, textStatus, errorThrown){
+          console.log("faaaaaaa");
         }
       });
-      // define the Node template
-      myDiagram.nodeTemplate =
-        $(go.Node, "Auto",
-          {
-            locationSpot: go.Spot.TopCenter,
-            isShadowed: true, shadowBlur: 1,
-            shadowOffset: new go.Point(0, 1),
-            shadowColor: "rgba(0, 0, 0, .14)"
-          },
-          new go.Binding("location", "loc", go.Point.parse).makeTwoWay(go.Point.stringify),
-          // define the node's outer shape, which will surround the TextBlock
-          $(go.Shape, "RoundedRectangle", roundedRectangleParams,
-            {
-              name: "SHAPE", fill: "#ffffff", strokeWidth: 0,
-              stroke: null,
-              portId: "",  // this Shape is the Node's port, not the whole Node
-              fromLinkable: true, fromLinkableSelfNode: true, fromLinkableDuplicates: true,
-              toLinkable: true, toLinkableSelfNode: true, toLinkableDuplicates: true,
-              cursor: "pointer"
-            }),
-          $(go.TextBlock,
-            {
-              font: "bold small-caps 11pt helvetica, bold arial, sans-serif", margin: 7, stroke: "rgba(0, 0, 0, .87)",
-              editable: true  // editing the text automatically updates the model data
-            },
-            new go.Binding("text").makeTwoWay())
-        );
-      // unlike the normal selection Adornment, this one includes a Button
-      myDiagram.nodeTemplate.selectionAdornmentTemplate =
-        $(go.Adornment, "Spot",
-          $(go.Panel, "Auto",
-            $(go.Shape, "RoundedRectangle", roundedRectangleParams,
-            { fill: null, stroke: "#7986cb", strokeWidth: 3 }),
-            $(go.Placeholder)  // a Placeholder sizes itself to the selected Node
-          ),
-          // the button to create a "next" node, at the top-right corner
-          $("Button",
-            {
-              alignment: go.Spot.TopRight,
-              click: addNodeAndLink  // this function is defined below
-            },
-            $(go.Shape, "PlusLine", { width: 6, height: 6 })
-          ) // end button
-        ); // end Adornment
-      myDiagram.nodeTemplateMap.add("Start",
-        $(go.Node, "Spot", { desiredSize: new go.Size(75, 75) },
-          new go.Binding("location", "loc", go.Point.parse).makeTwoWay(go.Point.stringify),
-          $(go.Shape, "Circle",
-            {
-              fill: "#000000",
-              stroke: null,
-              portId: "",
-              fromLinkable: true, fromLinkableSelfNode: true, fromLinkableDuplicates: true,
-              toLinkable: true, toLinkableSelfNode: true, toLinkableDuplicates: true,
-              cursor: "pointer"
-            }),
-          $(go.TextBlock, "Start",
-            {
-              font: "16pt helvetica, sans-serif",
-              stroke: "whitesmoke"
-            })
-        )
-      );
-      myDiagram.nodeTemplateMap.add("End",
-        $(go.Node, "Spot", { desiredSize: new go.Size(75, 75) },
-          new go.Binding("location", "loc", go.Point.parse).makeTwoWay(go.Point.stringify),
-          $(go.Shape, "Circle",
-            {
-              fill: "maroon",
-              stroke: null,
-              portId: "",
-              fromLinkable: true, fromLinkableSelfNode: true, fromLinkableDuplicates: true,
-              toLinkable: true, toLinkableSelfNode: true, toLinkableDuplicates: true,
-              cursor: "pointer"
-            }),
-          $(go.Shape, "Circle", { fill: null, desiredSize: new go.Size(65, 65), strokeWidth: 2, stroke: "whitesmoke" }),
-          $(go.TextBlock, "End",
-            {
-              font: "bold 16pt helvetica, bold arial, sans-serif",
-              stroke: "whitesmoke"
-            })
-        )
-      );
-
-      // clicking the button inserts a new node to the right of the selected node,
-      // and adds a link to that new node
-      function addNodeAndLink(e, obj) {
-        var adornment = obj.part;
-        var diagram = e.diagram;
-        diagram.startTransaction("Add State");
-        // get the node data for which the user clicked the button
-        var fromNode = adornment.adornedPart;
-        var fromData = fromNode.data;
-        // create a new "State" data object, positioned off to the right of the adorned Node
-        var toData = { text: "new" };
-        var p = fromNode.location.copy();
-        p.x += 200;
-        toData.loc = go.Point.stringify(p);  // the "loc" property is a string, not a Point object
-        // add the new node data to the model
-        var model = diagram.model;
-        model.addNodeData(toData);
-        // create a link data from the old node data to the new node data
-        var linkdata = {
-          from: model.getKeyForNodeData(fromData),  // or just: fromData.id
-          to: model.getKeyForNodeData(toData),
-          text: "decision"
-        };
-        // and add the link data to the model
-        model.addLinkData(linkdata);
-        // select the new Node
-        var newnode = diagram.findNodeForData(toData);
-        diagram.select(newnode);
-        diagram.commitTransaction("Add State");
-        // if the new node is off-screen, scroll the diagram to show the new node
-        diagram.scrollToRect(newnode.actualBounds);
-      }
-      // replace the default Link template in the linkTemplateMap
-      myDiagram.linkTemplate =
-        $(go.Link,  // the whole link panel
-          {
-            curve: go.Link.Bezier,
-            adjusting: go.Link.Stretch,
-            reshapable: true, relinkableFrom: true, relinkableTo: true,
-            toShortLength: 3
-          },
-          new go.Binding("points").makeTwoWay(),
-          new go.Binding("curviness"),
-          $(go.Shape,  // the link shape
-            { strokeWidth: 1.5 },
-            new go.Binding('stroke', 'progress', function(progress) {
-              return progress ? "#52ce60" /* green */ : 'black';
-            }),
-            new go.Binding('strokeWidth', 'progress', function(progress) {
-              return progress ? 2.5 : 1.5;
-            })
-            ),
-          $(go.Shape,  // the arrowhead
-            { toArrow: "standard", stroke: null },
-            new go.Binding('fill', 'progress', function(progress) {
-              return progress ? "#52ce60" /* green */ : 'black';
-            }),
-            ),
-          $(go.Panel, "Auto",
-            $(go.Shape,  // the label background, which becomes transparent around the edges
-              {
-                fill: $(go.Brush, "Radial",
-                  { 0: "rgb(245, 245, 245)", 0.7: "rgb(245, 245, 245)", 1: "rgba(245, 245, 245, 0)" }),
-                stroke: null
-              }),
-            $(go.TextBlock, "decisiono",  // the label text
-              {
-                textAlign: "center",
-                font: "9pt helvetica, arial, sans-serif",
-                margin: 4,
-                editable: true  // enable in-place editing
-              },
-              // editing the text automatically updates the model data
-              new go.Binding("text").makeTwoWay())
-          )
-        );
-      // read in the JSON data from the "mySavedModel" element
-      load();
+    }else{
+      // don't delete the start node
     }
+  }
 
-    // delete a scene
-    function deleteScene(projectId, sceneId, editorId){
-      if(editorId != -1){
+  function deleteDecision(projectId, sceneId, decisionId){
+    $.ajax({
+      type: "DELETE",
+      url:"/projects/"+projectId+"/scenes/"+sceneId+"/decisions/"+decisionId,
+      success: function(data, textStatus, jqXHR){
+        console.log("eihei!");
+      },
+      error: function(jqXHR, textStatus, errorThrown){
+        console.log("faaaaaaa");
+      }
+    });
+  }
+
+  // send a post request to add a scene; scene needs to be a hash
+  function addScene(projectId, scene, edges){
+    $.ajax({
+      type: "POST",
+      url:"/projects/"+projectId+"/scenes",
+      data: scene,
+      success: function(data, textStatus, jqXHR){
+        console.log("eihei!");
         $.ajax({
-          type: "DELETE",
-          url:"/projects/"+projectId+"/scenes/"+sceneId,
+          type: "GET",
+          url:"/projects/"+projectId+"/scenes",
+          dataType: "json",
           success: function(data, textStatus, jqXHR){
-            console.log("eihei!");
+            console.log("second post", data);
+            // if we have new edges:
+            if(edges.length > 0){
+              for(let e=0;e<edges.length;e++){
+                let edge = edges[e];
+                console.log(edge);
+
+                let sceneId = null;
+
+                // find sceneId and nextId according to from and to
+                let from = edge.from;
+                let to = edge.to;
+                for (let f=0;f<data.length;f++){
+                  let scene = data[f];
+                  if (scene.editor_id == from){
+                    sceneId = scene.id;
+                  };
+                };
+
+                if(sceneId != null){
+                  // build decision hash for post
+                  let decision = {
+                    decision: {
+                      description: edge.text,
+                      scene_id: sceneId,
+                      previous_editor_id: from,
+                      next_editor_id: to,
+                      p1: Math.round(edge.points.j[0].x),
+                      p2: Math.round(edge.points.j[0].y),
+                      p3: Math.round(edge.points.j[1].x),
+                      p4: Math.round(edge.points.j[1].y),
+                      p5: Math.round(edge.points.j[2].x),
+                      p6: Math.round(edge.points.j[2].y),
+                      p7: Math.round(edge.points.j[3].x),
+                      p8: Math.round(edge.points.j[3].y),
+                    }
+                  };
+                  addDecision(projectId, sceneId, decision);
+                }else{
+                  console.log("sceneId missing")
+                };
+              };
+            };
           },
           error: function(jqXHR, textStatus, errorThrown){
             console.log("faaaaaaa");
           }
         });
-      }else{
-        // don't delete the start node
+      },
+      error: function(jqXHR, textStatus, errorThrown){
+        console.log("faaaaaaa");
       }
-    }
+    });
+  }
+  function addDecision(projectId, sceneId, decision){
+    $.ajax({
+      type: "POST",
+      url:"/projects/"+projectId+"/scenes/"+sceneId+"/decisions",
+      data: decision,
+      success: function(data, textStatus, jqXHR){
+        console.log("eihei!");
+      },
+      error: function(jqXHR, textStatus, errorThrown){
+        console.log("faaaaaaa");
+      }
+    });
+  }
 
-    function deleteDecision(projectId, sceneId, decisionId){
-      $.ajax({
-        type: "DELETE",
-        url:"/projects/"+projectId+"/scenes/"+sceneId+"/decisions/"+decisionId,
-        success: function(data, textStatus, jqXHR){
-          console.log("eihei!");
-        },
-        error: function(jqXHR, textStatus, errorThrown){
-          console.log("faaaaaaa");
-        }
-      });
-    }
+  function editScene(projectId, sceneId, scene){
+    $.ajax({
+      type: "PATCH",
+      url:"/projects/"+projectId+"/scenes/"+sceneId,
+      data: scene,
+      success: function(data, textStatus, jqXHR){
+        console.log("eihei!");
+      },
+      error: function(jqXHR, textStatus, errorThrown){
+        console.log("faaaaaaa");
+      }
+    });
+  }
 
-    // send a post request to add a scene; scene needs to be a hash
-    function addScene(projectId, scene, edges){
-      $.ajax({
-        type: "POST",
-        url:"/projects/"+projectId+"/scenes",
-        data: scene,
-        success: function(data, textStatus, jqXHR){
-          console.log("eihei!");
-          $.ajax({
-            type: "GET",
-            url:"/projects/"+projectId+"/scenes",
-            dataType: "json",
-            success: function(data, textStatus, jqXHR){
-              console.log("second post", data);
-              // if we have new edges:
-              if(edges.length > 0){
-                for(let e=0;e<edges.length;e++){
-                  let edge = edges[e];
-                  console.log(edge);
-
-                  let sceneId = null;
-
-                  // find sceneId and nextId according to from and to
-                  let from = edge.from;
-                  let to = edge.to;
-                  for (let f=0;f<data.length;f++){
-                    let scene = data[f];
-                    if (scene.editor_id == from){
-                      sceneId = scene.id;
-                    };
-                  };
-
-                  if(sceneId != null){
-                    // build decision hash for post
-                    let decision = {
-                      decision: {
-                        description: edge.text,
-                        scene_id: sceneId,
-                        previous_editor_id: from,
-                        next_editor_id: to,
-                        p1: Math.round(edge.points.j[0].x),
-                        p2: Math.round(edge.points.j[0].y),
-                        p3: Math.round(edge.points.j[1].x),
-                        p4: Math.round(edge.points.j[1].y),
-                        p5: Math.round(edge.points.j[2].x),
-                        p6: Math.round(edge.points.j[2].y),
-                        p7: Math.round(edge.points.j[3].x),
-                        p8: Math.round(edge.points.j[3].y),
-                      }
-                    };
-                    addDecision(projectId, sceneId, decision);
-                  }else{
-                    console.log("sceneId missing")
-                  };
-                };
-              };
-            },
-            error: function(jqXHR, textStatus, errorThrown){
-              console.log("faaaaaaa");
-            }
-          });
-        },
-        error: function(jqXHR, textStatus, errorThrown){
-          console.log("faaaaaaa");
-        }
-      });
-    }
-    function addDecision(projectId, sceneId, decision){
-      $.ajax({
-        type: "POST",
-        url:"/projects/"+projectId+"/scenes/"+sceneId+"/decisions",
-        data: decision,
-        success: function(data, textStatus, jqXHR){
-          console.log("eihei!");
-        },
-        error: function(jqXHR, textStatus, errorThrown){
-          console.log("faaaaaaa");
-        }
-      });
-    }
-
-    function editScene(projectId, sceneId, scene){
-      $.ajax({
-        type: "PATCH",
-        url:"/projects/"+projectId+"/scenes/"+sceneId,
-        data: scene,
-        success: function(data, textStatus, jqXHR){
-          console.log("eihei!");
-        },
-        error: function(jqXHR, textStatus, errorThrown){
-          console.log("faaaaaaa");
-        }
-      });
-    }
-
-    function editDecision(projectId, sceneId, decisionId, decision){
-      $.ajax({
-        type: "PATCH",
-        url:"/projects/"+projectId+"/scenes/"+scene_id+"/decisions/"+decisionId,
-        data: decision,
-        success: function(data, textStatus, jqXHR){
-          console.log("eihei!");
-        },
-        error: function(jqXHR, textStatus, errorThrown){
-          console.log("faaaaaaa");
-        }
-      });
-    }
+  function editDecision(projectId, sceneId, decisionId, decision){
+    $.ajax({
+      type: "PATCH",
+      url:"/projects/"+projectId+"/scenes/"+scene_id+"/decisions/"+decisionId,
+      data: decision,
+      success: function(data, textStatus, jqXHR){
+        console.log("eihei!");
+      },
+      error: function(jqXHR, textStatus, errorThrown){
+        console.log("faaaaaaa");
+      }
+    });
+  }
 
 
-    // Show the diagram's model in JSON format
-    function save() {
-      // document.getElementById("mySavedModel").value = myDiagram.model.toJson();
-      var nodes = myDiagram.model.Cc;
-      var allEdges = myDiagram.model.Nc;
-      var projectId = <%= @project.id %>;
+  // Show the diagram's model in JSON format
+  function save() {
+    // document.getElementById("mySavedModel").value = myDiagram.model.toJson();
+    var nodes = myDiagram.model.Cc;
+    var allEdges = myDiagram.model.Nc;
+    var projectId = <%= @project.id %>;
 
-      /*
-        get all scenes from the current project
+    /*
+      get all scenes from the current project
 
-        rememebr:
-          "<%= @project.scenes %>"
-          no double quotes if using raw
-      */
+      rememebr:
+        "<%= @project.scenes %>"
+        no double quotes if using raw
+    */
 
-      // make a get request to fetch all the scenes:
-      $.ajax({
-        type: "GET",
-        url:"/projects/"+projectId+"/scenes",
-        dataType: "json",
-        success: function(data, textStatus, jqXHR){
-          let oldScenes = data;
-          // console.log("old scenes", oldScenes);
-          // console.log("nodes in the editor", nodes);
-          // console.log("edges in the editor", allEdges);
+    // make a get request to fetch all the scenes:
+    $.ajax({
+      type: "GET",
+      url:"/projects/"+projectId+"/scenes",
+      dataType: "json",
+      success: function(data, textStatus, jqXHR){
+        let oldScenes = data;
+        // console.log("old scenes", oldScenes);
+        // console.log("nodes in the editor", nodes);
+        // console.log("edges in the editor", allEdges);
 
-          // check if we need to make any delete request
-          for(var i=0;i<oldScenes.length;i++){
-            // console.log(oldScenes[i].editor_id);
-            var del = true;
-            // check if the old node is still present in the editor
-            for(var j=0;j<nodes.length;j++){
-              if(nodes[j].id == oldScenes[i].editor_id){
-                del = false;
-              };
+        // check if we need to make any delete request
+        for(var i=0;i<oldScenes.length;i++){
+          // console.log(oldScenes[i].editor_id);
+          var del = true;
+          // check if the old node is still present in the editor
+          for(var j=0;j<nodes.length;j++){
+            if(nodes[j].id == oldScenes[i].editor_id){
+              del = false;
             };
-            if (del){
-              // deleting a scene means deleting all of its associated decisions
-              deleteScene(projectId, oldScenes[i].id, oldScenes[i].editor_id);
+          };
+          if (del){
+            // deleting a scene means deleting all of its associated decisions
+            deleteScene(projectId, oldScenes[i].id, oldScenes[i].editor_id);
+          };
+        };
+
+
+        // go through all nodes currently in the editor
+        for(var i=0;i<nodes.length;i++){
+          var node = nodes[i];
+
+          // find all edges associated with this node in the editor, store in the array edges
+          var edges = [];
+          for(let j=0;j<allEdges.length;j++){
+            var edge = allEdges[j];
+            if(edge.from == node.id){
+              edges.push(edge);
             };
           };
 
-
-          // go through all nodes currently in the editor
-          for(var i=0;i<nodes.length;i++){
-            var node = nodes[i];
-
-            // find all edges associated with this node in the editor, store in the array edges
-            var edges = [];
-            for(let j=0;j<allEdges.length;j++){
-              var edge = allEdges[j];
-              if(edge.from == node.id){
-                edges.push(edge);
-              };
-            };
-
-            // find matching scene from the db
-            var matchingScene = null;
-            for(var j=0;j<oldScenes.length;j++){
-              oldScene = oldScenes[j];
-              if (oldScene.editor_id == node.id){
-                matchingScene = oldScene;
-              }
-            }
-
-            // build hash for one scene
-            var text = node.text;
-            var editor_id = node.id;
-            var p = node.loc.split(" ");
-            var p1 = Math.round(parseFloat(p[0]));
-            var p2 = Math.round(parseFloat(p[1]));
-
-            var scene = {
-              scene:{
-                summary: text,
-                editor_id: editor_id,
-                p1: p1,
-                p2: p2
-              }
-            };
-
-            // if no mathcing scene, make a post request
-            // otherwise, a patch request
-
-            if (matchingScene == null){
-              addScene(projectId, scene, edges);
-            }else{
-              // before making a patch request, check if it is necessary
-              var oldSummary = matchingScene.summary;
-              var oldP1 = matchingScene.p1;
-              var oldP2 = matchingScene.p2;
-              var sceneId = matchingScene.id;
-              if(oldSummary==text && oldP1==p1 && oldP2==p2){
-                // do nothing
-              }else{
-                editScene(projectId, sceneId, scene);
-              };
-
-              // delete all edges of the current node
-              // 1. if the old scene has any edge
-              if (matchingScene.decisions.length > 0){
-                for(let k=0;k<matchingScene.decisions.length;k++){
-                  // delete that edge
-                  let decisionId = matchingScene.decisions[k].id
-                  deleteDecision(projectId, matchingScene.id, decisionId);
-                };
-              };
-
-              // 2. for all edges current associated with this node, post them
-              // add decisions according to edges
-              if(edges.length > 0){
-                for(let e=0;e<edges.length;e++){
-                  let edge = edges[e];
-                  let sceneId = null;
-
-                  // find sceneId and nextId according to from and to
-                  let from = edge.from;
-                  let to = edge.to;
-                  for (let f=0;f<data.length;f++){
-                    let scene = data[f];
-                    if (scene.editor_id == from){
-                      sceneId = scene.id;
-                    };
-                  };
-
-                  if(sceneId != null){
-                    // build decision hash for post
-                    let decision = {
-                      decision: {
-                        description: edge.text,
-                        scene_id: sceneId,
-                        previous_editor_id: from,
-                        next_editor_id: to,
-                        p1: Math.round(edge.points.j[0].x),
-                        p2: Math.round(edge.points.j[0].y),
-                        p3: Math.round(edge.points.j[1].x),
-                        p4: Math.round(edge.points.j[1].y),
-                        p5: Math.round(edge.points.j[2].x),
-                        p6: Math.round(edge.points.j[2].y),
-                        p7: Math.round(edge.points.j[3].x),
-                        p8: Math.round(edge.points.j[3].y),
-                      }
-                    };
-                    addDecision(projectId, sceneId, decision);
-                  }else{
-                    console.log("sceneId missing")
-                  };
-                };
-              };
-
+          // find matching scene from the db
+          var matchingScene = null;
+          for(var j=0;j<oldScenes.length;j++){
+            oldScene = oldScenes[j];
+            if (oldScene.editor_id == node.id){
+              matchingScene = oldScene;
             }
           }
-        },
-        error: function(jqXHR, textStatus, errorThrown){
-          console.log("faaaaaaa");
+
+          // build hash for one scene
+          var text = node.text;
+          var editor_id = node.id;
+          var p = node.loc.split(" ");
+          var p1 = Math.round(parseFloat(p[0]));
+          var p2 = Math.round(parseFloat(p[1]));
+
+          var scene = {
+            scene:{
+              summary: text,
+              editor_id: editor_id,
+              p1: p1,
+              p2: p2
+            }
+          };
+
+          // if no mathcing scene, make a post request
+          // otherwise, a patch request
+
+          if (matchingScene == null){
+            addScene(projectId, scene, edges);
+          }else{
+            // before making a patch request, check if it is necessary
+            var oldSummary = matchingScene.summary;
+            var oldP1 = matchingScene.p1;
+            var oldP2 = matchingScene.p2;
+            var sceneId = matchingScene.id;
+            if(oldSummary==text && oldP1==p1 && oldP2==p2){
+              // do nothing
+            }else{
+              editScene(projectId, sceneId, scene);
+            };
+
+            // delete all edges of the current node
+            // 1. if the old scene has any edge
+            if (matchingScene.decisions.length > 0){
+              for(let k=0;k<matchingScene.decisions.length;k++){
+                // delete that edge
+                let decisionId = matchingScene.decisions[k].id
+                deleteDecision(projectId, matchingScene.id, decisionId);
+              };
+            };
+
+            // 2. for all edges current associated with this node, post them
+            // add decisions according to edges
+            if(edges.length > 0){
+              for(let e=0;e<edges.length;e++){
+                let edge = edges[e];
+                let sceneId = null;
+
+                // find sceneId and nextId according to from and to
+                let from = edge.from;
+                let to = edge.to;
+                for (let f=0;f<data.length;f++){
+                  let scene = data[f];
+                  if (scene.editor_id == from){
+                    sceneId = scene.id;
+                  };
+                };
+
+                if(sceneId != null){
+                  // build decision hash for post
+                  let decision = {
+                    decision: {
+                      description: edge.text,
+                      scene_id: sceneId,
+                      previous_editor_id: from,
+                      next_editor_id: to,
+                      p1: Math.round(edge.points.j[0].x),
+                      p2: Math.round(edge.points.j[0].y),
+                      p3: Math.round(edge.points.j[1].x),
+                      p4: Math.round(edge.points.j[1].y),
+                      p5: Math.round(edge.points.j[2].x),
+                      p6: Math.round(edge.points.j[2].y),
+                      p7: Math.round(edge.points.j[3].x),
+                      p8: Math.round(edge.points.j[3].y),
+                    }
+                  };
+                  addDecision(projectId, sceneId, decision);
+                }else{
+                  console.log("sceneId missing")
+                };
+              };
+            };
+
+          }
         }
-      });
-    }
+      },
+      error: function(jqXHR, textStatus, errorThrown){
+        console.log("faaaaaaa");
+      }
+    });
+  }
 
-    function load() {
-      var projectId = <%= @project.id %>;
-      $.ajax({
-        type: "GET",
-        url:"/projects/"+projectId+"/scenes",
-        dataType: "json",
-        success: function(data, textStatus, jqXHR){
-          let oldScenes = data;
-          console.log("data", data);
+  function load() {
+    var projectId = <%= @project.id %>;
+    $.ajax({
+      type: "GET",
+      url:"/projects/"+projectId+"/scenes",
+      dataType: "json",
+      success: function(data, textStatus, jqXHR){
+        let oldScenes = data;
+        console.log("data", data);
 
-          // collect nodes and edges
-          let nodes = [];
-          let edges = [];
-          let hasStart = false;
+        // collect nodes and edges
+        let nodes = [];
+        let edges = [];
+        let hasStart = false;
 
-          document.getElementById("allScenes").innerHTML = "";
+        document.getElementById("allScenes").innerHTML = "";
 
-          console.log("oldScenes", oldScenes);
-          for (let i=0;i<oldScenes.length;i++){
-            let scene = oldScenes[i];
+        console.log("oldScenes", oldScenes);
+        for (let i=0;i<oldScenes.length;i++){
+          let scene = oldScenes[i];
 
-            let lt;
-            if(scene.editor_id == -1){
-              lt = "<div class=\"btn m-2\"><a href=\"\/projects\/" + projectId + "\/scenes\/" + scene.id + "\/edit\">" + "Start" +  "<\/a></div>"
-              document.getElementById("allScenes").innerHTML += lt;
-            }else{
-              lt = "<div class=\"btn m-2\"><a href=\"\/projects\/" + projectId + "\/scenes\/" + scene.id + "\/edit\">" + scene.summary +  "<\/a></div>"
-              document.getElementById("allScenes").innerHTML += lt;
-            }
-
-
-            let node = null;
-            if(scene.editor_id != -1){
-              node = {
-                "id": scene.editor_id,
-                "loc": scene.p1+" "+scene.p2,
-                "text": scene.summary
-              };
-            }else{
-              hasStart = true;
-              node = {
-                "id": -1,
-                "loc": scene.p1+" "+scene.p2,
-                "category": "Start"
-              }
-            }
-
-            nodes.push(node);
-
-            if (scene.decisions.length > 0){
-              for (let j=0;j<scene.decisions.length;j++){
-                let decision = scene.decisions[j];
-                let points = [
-                  decision.p1,
-                  decision.p2,
-                  decision.p3,
-                  decision.p4,
-                  decision.p5,
-                  decision.p6,
-                  decision.p7,
-                  decision.p8
-                ];
-                let edge = {
-                  "from": decision.previous_editor_id,
-                  "to": decision.next_editor_id,
-                  "points": points,
-                  "text": decision.description
-                };
-                edges.push(edge);
-              };
-            };
+          let lt;
+          if(scene.editor_id == -1){
+            lt = "<div class=\"btn m-2\"><a href=\"\/projects\/" + projectId + "\/scenes\/" + scene.id + "\/edit\">" + "Start" +  "<\/a></div>"
+            document.getElementById("allScenes").innerHTML += lt;
+          }else{
+            lt = "<div class=\"btn m-2\"><a href=\"\/projects\/" + projectId + "\/scenes\/" + scene.id + "\/edit\">" + scene.summary +  "<\/a></div>"
+            document.getElementById("allScenes").innerHTML += lt;
           }
 
-          if (!hasStart){
-            let start = {
+
+          let node = null;
+          if(scene.editor_id != -1){
+            node = {
+              "id": scene.editor_id,
+              "loc": scene.p1+" "+scene.p2,
+              "text": scene.summary
+            };
+          }else{
+            hasStart = true;
+            node = {
               "id": -1,
-              "loc": "155 -138",
+              "loc": scene.p1+" "+scene.p2,
               "category": "Start"
             }
-            nodes.push(start);
           }
 
-          let model = {
-            "class": "GraphLinksModel",
-            "nodeKeyProperty": "id",
-            "nodeDataArray": nodes,
-            "linkDataArray": edges
-          };
+          nodes.push(node);
 
-          myDiagram.model = go.Model.fromJson(model);
-        },
-        error: function(jqXHR, textStatus, errorThrown){
-          console.log("faaaaaaa");
+          if (scene.decisions.length > 0){
+            for (let j=0;j<scene.decisions.length;j++){
+              let decision = scene.decisions[j];
+              let points = [
+                decision.p1,
+                decision.p2,
+                decision.p3,
+                decision.p4,
+                decision.p5,
+                decision.p6,
+                decision.p7,
+                decision.p8
+              ];
+              let edge = {
+                "from": decision.previous_editor_id,
+                "to": decision.next_editor_id,
+                "points": points,
+                "text": decision.description
+              };
+              edges.push(edge);
+            };
+          };
         }
-      });
-    }
+
+        if (!hasStart){
+          let start = {
+            "id": -1,
+            "loc": "155 -138",
+            "category": "Start"
+          }
+          nodes.push(start);
+        }
+
+        let model = {
+          "class": "GraphLinksModel",
+          "nodeKeyProperty": "id",
+          "nodeDataArray": nodes,
+          "linkDataArray": edges
+        };
+
+        myDiagram.model = go.Model.fromJson(model);
+      },
+      error: function(jqXHR, textStatus, errorThrown){
+        console.log("faaaaaaa");
+      }
+    });
+  }
 </script>
