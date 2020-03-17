@@ -23,12 +23,10 @@
       </div>
 
       <% if(!p.published) %>
-
         <div id="btn-publish">
           <button id='publish' onclick="publish(<%= p.id %>)">Publish</button>
         </div>
       <% else %>
-
         <div id="btn-bring-offline">
           <button id='bring-offline' onclick="bringOffline(<%= p.id %>)">Bring Offline</button>
         </div>
@@ -50,7 +48,6 @@
       }},
       success: function(data, textStatus, jqXHR){
         console.log("eihei!");
-        //miao
         document.getElementById("btn-publish").innerHTML="Published";
       },
       error: function(jqXHR, textStatus, errorThrown){
