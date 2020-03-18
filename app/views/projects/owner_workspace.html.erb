@@ -1,13 +1,13 @@
-<%= link_to "<<My Projects", "/profile" ,style:"text-decoration:underline; margin-left:2%; color:#555555" %>
+<%= link_to "<<My Projects", "/profile" ,style:"text-decoration:underline; margin-left:8px; color:#555555; position:relative; top:17px;" %>
 <div class="wrkContainer">
   <div>
     <div class="instruction">
-      <p>This is a map of your story.</p>
-      <p>Double click to add a chapter. Double click again to name it. Only you can see this name.</p>
-      <p>To add a title visible to readers, scroll down to <strong>Elaborate Chapters</strong>.</p>
+      <p>This is a map of your story.Double click to add a chapter.</p>
       <p>A chapter is a branching point for your story, connected by <strong>Decisions</strong>.</p>
-      <p>Click and drag to create decisions that connect your chapters. Double click the white bubble to rename.</p>
-      <p>The names of decisions are shown to readers.</p>
+      <p>Click and drag to create decisions that connect your chapters. </p>
+      <p>Double click bubbles to rename. Press Cmd(Mac)/Ctrl(PC) + Z to undo.</p>
+      <p>Decision names are shown to readers. Chapter names are not.</p>
+      <p>To add a chapter title visible to readers, scroll down to <strong>Elaborate Chapters</strong>.</p>
     </div>
     <h3 class="workHeader"><%= @project.name %></h3>
   </div>
@@ -16,11 +16,7 @@
 
       <div id="diagramEditor">
         <div id="myDiagramDiv"></div>
-        <div class="actions">
-          <!-- <p class="floatRight"><%= link_to "Elaborate Scenes", project_elaborate_scenes_path(@project) %></p> -->
-          <button class="floatRight btn", id="SaveButton", onclick="save()">Save</button>
-          <button class="floatRight btn" onclick="load()">Load</button>
-        </div>
+        <button class="floatRight btn", id="SaveButton", onclick="save()", style="padding-left: 30px; padding-right: 30px; position:relative; top:-50px;margin-right:10px;">Save</button>
       </div>
 
 
@@ -124,13 +120,16 @@
         </div>
       </div>
     </div> -->
-    <div class="center", style="position: relative; top: -50px; color: #444444">Remember: Save before you leave the page!</div>
+    <div class="center", style="position: relative; left: 5%; color: #444444">Remember: Save before you leave the page!</div>
   </div>
   </div>
   </div>
 
-  <div class="sceneList", id="elaborate"><h3 class="workHeader", style="margin-left:0;margin-bottom:10px;" >Elaborate current scenes: </h3>
-  <div id="allScenes"></div></div>
+  <div class="sceneList", id="elaborate">
+    <h3 class="workHeader", style="margin-left:0;margin-bottom:10px;" >Elaborate current scenes: </h3>
+    <div id="allScenes"></div>
+    <button class="floatRight btn" onclick="load()", style="margin-right: 0px;">Update Chapter List</button><br>
+</div>
   <!--<textarea id="mySavedModel" style="width:100%;height:300px">
   { "class": "GraphLinksModel",
     "nodeKeyProperty": "id",
@@ -337,7 +336,7 @@
                 { 0: "rgb(245, 245, 245)", 0.7: "rgb(245, 245, 245)", 1: "rgba(245, 245, 245, 0)" }),
               stroke: null
             }),
-          $(go.TextBlock, "decisiono",  // the label text
+          $(go.TextBlock, "decision",  // the label text
             {
               textAlign: "center",
               font: "9pt helvetica, arial, sans-serif",
