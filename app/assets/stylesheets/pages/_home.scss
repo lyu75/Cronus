@@ -34,7 +34,7 @@ textarea{
 
 h2{
   margin:0;
-  font-size: 70px;
+  font-size: 60px;
   background-color: black;
   padding-bottom:20px;
   text-align: center;
@@ -270,8 +270,9 @@ button:hover,.btn:hover{
 
 .storyBtn{
   border: 1px solid #F4F4F4;
-  position:relative;
-  bottom: -30px;
+  position:absolute;
+  right: 250px;
+  top: 580px;
 }
 
 #sceneContent{

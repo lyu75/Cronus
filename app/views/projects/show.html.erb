@@ -4,6 +4,6 @@
       <h2 style="text-align:left;"><%= @project.name %></h2>
         <p><strong>by <%= @project.user.username %></strong></p>
         <p><%= @project.description %></p>
-        <p class="storyBtn btn floatRight"><%= link_to "Start Reading", project_play_path(@project) %></p>
+        <p class="storyBtn btn"><%= link_to "Start Reading", project_play_path(@project) %></p>
     </div>
 </div>
