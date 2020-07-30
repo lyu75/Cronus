@@ -3,6 +3,7 @@
 <!-- <h1>ronus</h1> --></div>
 <div><h2 id="projects">Projects</h2>
 <!-- <div class="searchBar center">Search stories here</div> --></div>
+<div class="container_proj">
   <% @projects.each do |p| %>
       <% if(p.published) %>
        <div class="projects">
@@ -15,6 +16,7 @@
       <% end %>
 
       <% end %>
+</div>
 <div class="footer center", style="color: black">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos perferendis facilis deleniti cumque, amet, ab sint vero laboriosam accusamus, dolor doloribus fugit adipisci? Atque in expedita laboriosam ipsa, dolor similique.</div>
 <script type="text/javascript">
   document.getElementById("home").style.display = "none";

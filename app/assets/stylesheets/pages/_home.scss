@@ -1,6 +1,4 @@
-// Specific CSS for your home-page
 body{
-  // background-color: #1F2021;
   background: linear-gradient(#000000, #777777);
   font-family: Avenir, Arial, sans-serif;
   font-size: 20px;
@@ -17,20 +15,6 @@ textarea{
   width: 60%;
   height: 200px;
 }
-
-// h1{
-//   margin:0;
-//   font-size: 100px;
-//   background-color:black;
-//   // padding-top: 220px;
-//   padding-bottom: 300px;
-//   padding-left: 150px;
-//   text-align: center;
-//   // background-image:url("/assets/realIcon.png");
-//   // background-size: 200px;
-//   // background-repeat: no-repeat;
-//   // background-position: 40% -20%;
-// }
 
 h2{
   margin:0;
@@ -64,25 +48,29 @@ a:hover{
   color:#cccccc;
 }
 
+.container_proj{
+  display: flex;
+  flex-wrap: wrap;
+}
+
 .searchBar{
   background-color:black;
   color:#BDBDBD;
 }
 
 .logo{
-  background-color:black;
+  min-height: 100vh;
+  background-color: black;
+  display: grid;
+  place-items: center;
 }
 
 .logoImg{
   width:35%;
-  margin-left:33%;
-  margin-top: 175px;
-  margin-bottom: 110px;
 }
 
 .arrow{
   margin-left:48%;
-  margin-bottom:50px;
   width: 80px;
   opacity: 0.5;
 }
@@ -133,23 +121,20 @@ a:hover{
   margin-top: 2.5%;
   margin-left: 5%;
   margin-bottom: 2.5%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .projInfo{
   margin:5%;
+  margin-bottom:0;
 }
 
 .coverPic{
-  margin:auto;
   height:250px;
   border-radius: 10px 10px 0px 0px;
-  // background-image: url("defaltCover.png");
   background-color: #333333;
-  // background-image: url("/assets/realIcon.png");
-  // background-size: 50%;
-  // background-repeat:no-repeat;
-  // background-position: 40% 70%;
-  // background-size: 10%;
 }
 
 button,.btn{
@@ -204,10 +189,6 @@ button:hover,.btn:hover{
   background-color: #d7c8af;
   border-radius: 20px;
 }
-
-// .show-line-break{
-//   white-space: pre;
-// }
 
 .new-proj{
     margin-bottom: 10px;
